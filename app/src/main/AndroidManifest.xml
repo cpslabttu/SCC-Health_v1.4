@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="app.esarp.SCC_Health">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE"/>
+
+    <application
+        android:name="app.esarp.SCC_Health.cBaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".BluetoothActivity"
+            android:label="@string/category_bluetooth" />
+        <activity android:name=".SimpleActivity" />
+        <activity
+            android:name=".ListenerActivity"
+            android:label="@string/title_activity_listener" />
+        <activity
+            android:name=".AutoConnectActivity"
+            android:label="@string/title_activity_auto_connect" />
+        <activity
+            android:name=".DeviceListActivity"
+            android:label="@string/title_activity_device_list" />
+        <activity
+            android:name=".TerminalActivity"
+            android:label="@string/title_activity_terminal" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="SCC Health">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:parentActivityName=".LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".ConnectionSettingsActivity"
+            android:label="Connection Setting"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".DB_login"
+            android:label="Profile Login"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".About"
+            android:label="@string/category_about"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".LabActivity"
+            android:label="@string/category_lab"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".BodyTempActivity"
+            android:label="@string/category_bodytemp"
+            android:parentActivityName=".LabActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.LabActivity" />
+        </activity>
+        <activity
+            android:name=".AsthmaActivity"
+            android:label="COPD"
+            android:parentActivityName=".LabActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.LabActivity" />
+        </activity>
+        <activity
+            android:name=".SleepApnea"
+            android:label="Sleep Apnea"
+            android:parentActivityName=".LabActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.LabActivity" />
+        </activity>
+        <activity
+            android:name=".ArrhythmiaActivity"
+            android:label="Arrhythmia"
+            android:parentActivityName=".LabActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.LabActivity" />
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="User Profiles"
+            android:parentActivityName=".DB_login">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.DB_login" />
+        </activity>
+        <activity
+            android:name=".DisplayContact"
+            android:label="Contact Details"
+            android:parentActivityName=".ProfileActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.ProfileActivity" />
+        </activity>
+        <activity
+            android:name=".Temp_HistoryActivity"
+            android:label="Temperature Log"
+            android:parentActivityName=".BodyTempActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.BodyTempActivity" />
+        </activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".GraphActivity"></activity>
+        <activity android:name=".ShowWebChart" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <service android:name="app.esarp.bluetooth.library.BluetoothSPP"
+            android:enabled="true"
+            android:exported="true"></service>
+
+    </application>
+
+</manifest>

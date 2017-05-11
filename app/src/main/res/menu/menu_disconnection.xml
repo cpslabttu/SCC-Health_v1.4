@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="app.esarp.btterminal.Main" >
+
+
+
+    <item
+        android:id="@+id/menu_disconnect"
+        android:orderInCategory="100"
+        android:background="#800000"
+        android:title="Disconnect" />
+
+
+
+    <item
+        android:id="@+id/menu_reinitialize"
+        android:orderInCategory="100"
+        android:background="#FFFF00"
+        android:title="Re-Initialize" />
+
+
+</menu>
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="app.esarp.bluetooth.library"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application>
+        <activity android:name=".DeviceList" />
+
+        <service android:name=".BluetoothSPP"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
+            android:name=".BluetoothSPP1"
+            android:enabled="true"
+            android:exported="true"></service>
+    </application>
+
+</manifest>

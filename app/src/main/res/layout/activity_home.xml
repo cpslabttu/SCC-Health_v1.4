@@ -1,0 +1,48 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!-- Copyright (C) 2016;    Embedded System Advanced Research and Prototyping Lab
+                            Department of Electrical and Computer Engineering
+                            The University of Memphis
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/round_corner"
+    android:orientation="vertical"
+    tools:context="app.esarp.SCC_Health.HomeActivity">
+
+    <TextView
+        android:id="@+id/about"
+        style="@style/CategoryStyle"
+        android:layout_margin="20dp"
+        android:textAlignment="center"
+        android:background="@drawable/button"
+        android:text="@string/category_about" />
+    <TextView
+        android:id="@+id/profile"
+        style="@style/CategoryStyle"
+        android:layout_margin="20dp"
+        android:textAlignment="center"
+        android:background="@drawable/button"
+        android:text="@string/category_profile" />
+
+    <TextView
+        android:id="@+id/lab"
+        style="@style/CategoryStyle"
+        android:layout_margin="20dp"
+        android:background="@drawable/button"
+        android:textAlignment="center"
+        android:text="@string/category_lab" />
+
+
+
+    <TextView
+        android:id="@+id/setting"
+        style="@style/CategoryStyle"
+        android:layout_margin="20dp"
+        android:background="@drawable/button"
+        android:textAlignment="center"
+        android:text="@string/category_setting" />
+
+</LinearLayout>

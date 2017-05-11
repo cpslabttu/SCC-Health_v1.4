@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion Integer.parseInt(project.ANDROID_COMPILE_SDK_VERSION)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    defaultConfig {
+        applicationId "app.esarp.SCC_Health"
+        minSdkVersion 17
+        targetSdkVersion Integer.parseInt(project.ANDROID_TARGET_SDK_VERSION)
+        versionName project.VERSION_NAME
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':library')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile files('libs/jfreechart-1.0.19-demo.jar')
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile files('libs/opencsv-3.9.jar')
+}
