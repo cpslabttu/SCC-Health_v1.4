@@ -1,20 +1,27 @@
 package app.esarp.SCC_Health;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends Activity {
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
-    Button b1,b2;
-    EditText ed1,ed2;
+import static app.esarp.SCC_Health.DisplayContact.READ_BLOCK_SIZE;
 
+public class LoginActivity extends FragmentActivity {
+
+    Button b1, b2, help;
+    EditText ed1, ed2;
+    private String name, pw;
     TextView tx1, tx2;
     int counter = 3;
 
@@ -28,18 +35,66 @@ public class LoginActivity extends Activity {
         ed2 = (EditText)findViewById(R.id.editText2);
 
         b2 = (Button)findViewById(R.id.button2);
+        help=(Button)findViewById(R.id.help);
         tx1 = (TextView)findViewById(R.id.textView3);
         tx2 = (TextView)findViewById(R.id.textView2);
         tx1.setVisibility(View.GONE);
         tx2.setVisibility(View.GONE);
 
+        // Set active profile
+        name = "";
+        pw="";
+
+        //reading profile from file
+        try {
+            FileInputStream fileIn = openFileInput("username.txt");
+            InputStreamReader InputRead = new InputStreamReader(fileIn);
+            char[] inputBuffer = new char[READ_BLOCK_SIZE];
+            /*String s="";*/
+            int charRead;
+
+            while ((charRead = InputRead.read(inputBuffer)) > 0) {
+                // char to string conversion
+                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
+                name += readstring;
+            }
+            InputRead.close();
+            /*mNameText.setText(s);*/
+            /*Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();*/
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            FileInputStream fileIn = openFileInput("mypassword.txt");
+            InputStreamReader InputRead = new InputStreamReader(fileIn);
+            char[] inputBuffer = new char[READ_BLOCK_SIZE];
+            /*String s="";*/
+            int charRead;
+
+            while ((charRead = InputRead.read(inputBuffer)) > 0) {
+                // char to string conversion
+                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
+                pw += readstring;
+            }
+            InputRead.close();
+            /*mNameText.setText(s);*/
+            /*Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();*/
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ed1.getText().toString().equals("a") &&
-                        ed2.getText().toString().equals("a")) {
+                if((ed1.getText().toString().equals("a") &&
+                        ed2.getText().toString().equals("a"))||(ed1.getText().toString().matches(name) &&
+                        ed2.getText().toString().matches(pw))) {
 
-                    Intent MainActivityIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                    Intent MainActivityIntent = new Intent(LoginActivity.this, WelcomeActivity.class);
 
                     // Start the new activity
                     startActivity(MainActivityIntent);
@@ -67,6 +122,18 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager=getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                HelpdeskFragment f1=new HelpdeskFragment();
+                fragmentTransaction.add(R.id.frag1,f1);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }

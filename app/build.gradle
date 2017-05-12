@@ -18,13 +18,17 @@ android {
     }
     productFlavors {
     }
+    buildToolsVersion '25.0.0'
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':library')
-    compile 'com.android.support:appcompat-v7:21.0.3'
     compile files('libs/jfreechart-1.0.19-demo.jar')
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile files('libs/opencsv-3.9.jar')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
 }

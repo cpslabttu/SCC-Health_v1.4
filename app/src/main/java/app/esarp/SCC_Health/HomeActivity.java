@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 public class HomeActivity extends Activity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,22 +54,7 @@ public class HomeActivity extends Activity {
             }
         });
 
-        // Find the View that shows the profile category
-        TextView profile = (TextView) findViewById(R.id.profile);
 
-        // Set a click listener on that View
-        profile.setOnClickListener(new View.OnClickListener() {
-            // The code in this method will be executed when the profile category is clicked on.
-            @Override
-            public void onClick(View view) {
-                // Create a new intent to open the {@link ProfileActivity}
-                Intent profileIntent = new Intent(app.esarp.SCC_Health.HomeActivity.this, DB_login.class);
-
-                // Start the new activity
-                startActivity(profileIntent);
-
-            }
-        });
 // Find the View that shows the profile category
         TextView setting = (TextView) findViewById(R.id.setting);
 
@@ -80,7 +64,7 @@ public class HomeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // Create a new intent to open the {@link ProfileActivity}
-                Intent settingIntent = new Intent(app.esarp.SCC_Health.HomeActivity.this, ConnectionSettingsActivity.class);
+                Intent settingIntent = new Intent(app.esarp.SCC_Health.HomeActivity.this, DB_login.class);
 
                 // Start the new activity
                 startActivity(settingIntent);

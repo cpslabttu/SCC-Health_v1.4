@@ -13,12 +13,24 @@
         android:paddingBottom = "@dimen/activity_vertical_margin"
         tools:context = ".DB_login">
 
+        <TextView
+            android:id="@+id/espeech"
+            style="@style/CategoryStyle"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:background="#FA8072"
+            android:text="Admin Previlage Required"
+            android:gravity="center"
+            android:paddingBottom="10dp"/>
+
         <TextView android:text = "Enter Username and Password"
             android:layout_width="wrap_content"
             android:layout_height = "wrap_content"
             android:id = "@+id/textview"
+            android:layout_marginTop="20dp"
             android:textSize = "12dp"
-            android:layout_alignParentTop = "true"
+            android:layout_below = "@+id/espeech"
             android:layout_centerHorizontal = "true" />
 
         <TextView

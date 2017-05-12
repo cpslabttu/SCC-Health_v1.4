@@ -8,6 +8,10 @@
     xmlns:tools = "http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height = "match_parent"
@@ -37,7 +41,7 @@
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
             android:id = "@+id/editText"
-            android:hint = "Enter Name"
+            android:hint = "User Name"
             android:focusable = "true"
             android:textColorHighlight = "#ff7eff15"
             android:textColorHint = "#ffff25e6"
@@ -96,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="login"
+            android:background="#F06292"
             android:id="@+id/button"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/textView2"
@@ -106,9 +111,27 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:id="@+id/button2"
+            android:background="#F06292"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/textview"
             android:layout_toEndOf="@+id/textview" />
 
     </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/frag1"
+            android:layout_marginTop="10dp"/>
+    <Button
+        android:id="@+id/help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="HELP"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:background="@color/accent_material_dark"/>
+
+    </LinearLayout>
 </ScrollView>

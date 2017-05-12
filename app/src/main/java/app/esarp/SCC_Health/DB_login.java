@@ -38,7 +38,7 @@ public class DB_login extends Activity {
                 if(ed1.getText().toString().equals("a") &&
                         ed2.getText().toString().equals("a")) {
 
-                    Intent NewActivityIntent = new Intent(DB_login.this, ProfileActivity.class);
+                    Intent NewActivityIntent = new Intent(DB_login.this, GeneralSettingsActivity.class);
 
                     // Start the new activity
                     startActivity(NewActivityIntent);
