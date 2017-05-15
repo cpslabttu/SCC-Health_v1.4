@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:background="#FA8072"
-            android:text="Admin Previlage Required"
+            android:text="Admin Privilege Required"
             android:gravity="center"
             android:paddingBottom="10dp"/>
 

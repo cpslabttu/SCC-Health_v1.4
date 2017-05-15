@@ -28,12 +28,12 @@ import java.util.Date;
 
 import static app.esarp.SCC_Health.DisplayContact.READ_BLOCK_SIZE;
 
-public class BodyTempActivity extends Activity {
+public class FluActivity extends Activity {
 
 String currentDateTime;
     double ratingOfEOI=0.0;
     Float severityRating;
-
+    String s;
     Intent mIntent;
 
     //temp db start
@@ -109,7 +109,7 @@ String currentDateTime;
 
 
 // Set active profile
-        String s="";
+       s="";
 
         //reading text from file
         try {
@@ -144,7 +144,7 @@ String currentDateTime;
             @Override
             public void onClick(View view) {
                 // Create a new intent to open the {@link SleepApnea}
-                Intent temperatureHistoryIntent = new Intent(BodyTempActivity.this, Temp_HistoryActivity.class);
+                Intent temperatureHistoryIntent = new Intent(FluActivity.this, Temp_HistoryActivity.class);
 
                 // Start the new activity
                 startActivity(temperatureHistoryIntent);
@@ -473,18 +473,27 @@ String currentDateTime;
                 return true;
             // Respond to a click on the "Share to SCC" menu option
             case R.id.action_share:
-                // Do nothing for now
+                // Go to cloud activity
 
-                Intent intent = new Intent(
-                        BodyTempActivity.this,
+                Intent shareIntent = new Intent(FluActivity.this, CloudActivity.class);
+                //Bundle extras = new Bundle();
+                shareIntent.putExtra("DT", "BT");
+                shareIntent.putExtra("profile", s);
+                shareIntent.putExtra("EOI", s);
+                shareIntent.putExtra("Time", s);
+                shareIntent.putExtra("Algorithm", s);
+                startActivity(shareIntent);
+
+                /*Intent intent = new Intent(
+                        FluActivity.this,
                         ShowWebChart.class);
 
-                   /* intent.putExtra("NUM1", getNum(num1));
+                   *//* intent.putExtra("NUM1", getNum(num1));
                     intent.putExtra("NUM2", getNum(num2));
                     intent.putExtra("NUM3", getNum(num3));
                     intent.putExtra("NUM4", getNum(num4));
                     intent.putExtra("NUM5", getNum(num5));
-*/
+*//*
 
                 intent.putExtra("NUM1", 40);
                 intent.putExtra("NUM2", 50);
@@ -494,7 +503,7 @@ String currentDateTime;
 
                 startActivity(intent);
 
-                finish();
+                finish();*/
 
                 return true;
             case R.id.action_sms:
@@ -507,7 +516,7 @@ String currentDateTime;
             case R.id.action_history:
 
 // Create a new intent to open the {@link Temperature History}
-                Intent temperatureHistoryIntent = new Intent(BodyTempActivity.this, Temp_HistoryActivity.class);
+                Intent temperatureHistoryIntent = new Intent(FluActivity.this, Temp_HistoryActivity.class);
 
                 // Start the new activity
                 startActivity(temperatureHistoryIntent);
@@ -517,7 +526,7 @@ String currentDateTime;
 
 /*
                 // Create a new intent to open the {@link Temperature History}
-                Intent temperatureHistoryIntent = new Intent(BodyTempActivity.this, Temp_HistoryActivity.class);
+                Intent temperatureHistoryIntent = new Intent(FluActivity.this, Temp_HistoryActivity.class);
 
                 // Start the new activity
                 startActivity(temperatureHistoryIntent);

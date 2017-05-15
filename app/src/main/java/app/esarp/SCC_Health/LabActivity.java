@@ -45,7 +45,7 @@ public class LabActivity extends Activity {
             public void onClick(View view) {
 
 
-                intent = new Intent(getApplicationContext(), BodyTempActivity.class);
+                intent = new Intent(getApplicationContext(), FluActivity.class);
                 startActivity(intent);
 
             }

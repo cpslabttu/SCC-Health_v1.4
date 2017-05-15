@@ -86,7 +86,7 @@
                 android:value="app.esarp.SCC_Health.HomeActivity" />
         </activity>
         <activity
-            android:name=".BodyTempActivity"
+            android:name=".FluActivity"
             android:label="@string/category_bodytemp"
             android:parentActivityName=".LabActivity">
 
@@ -148,12 +148,12 @@
         <activity
             android:name=".Temp_HistoryActivity"
             android:label="Temperature Log"
-            android:parentActivityName=".BodyTempActivity">
+            android:parentActivityName=".FluActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="app.esarp.SCC_Health.BodyTempActivity" />
+                android:value="app.esarp.SCC_Health.FluActivity" />
         </activity>
         <activity android:name=".SettingsActivity" />
         <activity android:name=".GraphActivity" />
@@ -174,7 +174,8 @@
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".GeneralSettingsActivity" />
         <activity android:name=".WifiActivity" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".CloudActivity"></activity>
     </application>
 
 </manifest>

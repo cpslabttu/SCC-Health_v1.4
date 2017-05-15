@@ -14,7 +14,7 @@
 
     <item
         android:id="@+id/action_share"
-        android:title="Show Chart"
+        android:title="Share with SCC"
         app:showAsAction="never" />
 
     <item

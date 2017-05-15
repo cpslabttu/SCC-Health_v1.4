@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,10 +23,11 @@ public class DisplayContact extends Activity {
     private ProfileDbHelper mydb ;
 
     TextView name ;
-    TextView phone;
+
     TextView email;
     TextView street;
     TextView place;
+    TextView phone;
     int id_To_Update = 0;
     static final int READ_BLOCK_SIZE = 100;
 
@@ -37,10 +37,11 @@ public class DisplayContact extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_contact);
         name = (TextView) findViewById(R.id.editTextName);
-        phone = (TextView) findViewById(R.id.editTextPhone);
-        email = (TextView) findViewById(R.id.editTextStreet);
-        street = (TextView) findViewById(R.id.editTextEmail);
+
+        street = (TextView) findViewById(R.id.editTextStreet);
+        email = (TextView) findViewById(R.id.editTextEmail);
         place = (TextView) findViewById(R.id.editTextCity);
+        phone = (TextView) findViewById(R.id.editTextPhone);
 
 // display contact
 
@@ -57,10 +58,11 @@ public class DisplayContact extends Activity {
                 rs.moveToFirst();
 
                 String nam = rs.getString(rs.getColumnIndex(ProfileDbHelper.CONTACTS_COLUMN_NAME));
-                String phon = rs.getString(rs.getColumnIndex(ProfileDbHelper.CONTACTS_COLUMN_PHONE));
+
                 String emai = rs.getString(rs.getColumnIndex(ProfileDbHelper.CONTACTS_COLUMN_EMAIL));
                 String stree = rs.getString(rs.getColumnIndex(ProfileDbHelper.CONTACTS_COLUMN_STREET));
                 String plac = rs.getString(rs.getColumnIndex(ProfileDbHelper.CONTACTS_COLUMN_CITY));
+                String phon = rs.getString(rs.getColumnIndex(ProfileDbHelper.CONTACTS_COLUMN_PHONE));
 
                 if (!rs.isClosed())  {
                     rs.close();
@@ -74,9 +76,7 @@ public class DisplayContact extends Activity {
                 name.setFocusable(false);
                 name.setClickable(false);
 
-                phone.setText((CharSequence)phon);
-                phone.setFocusable(false);
-                phone.setClickable(false);
+
 
                 email.setText((CharSequence)emai);
                 email.setFocusable(false);
@@ -89,23 +89,12 @@ public class DisplayContact extends Activity {
                 place.setText((CharSequence)plac);
                 place.setFocusable(false);
                 place.setClickable(false);
+
+                phone.setText((CharSequence)phon);
+                phone.setFocusable(false);
+                phone.setClickable(false);
             }
         }
-        // Find the View that shows the navigation button
-        ImageButton backNav = (ImageButton) findViewById(R.id.button3);
-
-        // Set a click listener on that View
-        backNav.setOnClickListener(new View.OnClickListener() {
-            // The code in this method will be executed when the numbers category is clicked on.
-            @Override
-            public void onClick(View view) {
-                // Create a new intent to open the {@link SleepApnea}
-                Intent sleepapneaIntent = new Intent(DisplayContact.this, HomeActivity.class);
-
-                // Start the new activity
-                startActivity(sleepapneaIntent);
-            }
-        });
 
         }
 
@@ -127,6 +116,11 @@ public class DisplayContact extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+// go back to diagnostic
+        Intent sleepapneaIntent = new Intent(DisplayContact.this, LabActivity.class);
+
+        // Start the new activity
+        startActivity(sleepapneaIntent);
     }
 // navigate to Home
 
@@ -158,10 +152,6 @@ public class DisplayContact extends Activity {
                 name.setFocusableInTouchMode(true);
                 name.setClickable(true);
 
-                phone.setEnabled(true);
-                phone.setFocusableInTouchMode(true);
-                phone.setClickable(true);
-
                 email.setEnabled(true);
                 email.setFocusableInTouchMode(true);
                 email.setClickable(true);
@@ -173,6 +163,10 @@ public class DisplayContact extends Activity {
                 place.setEnabled(true);
                 place.setFocusableInTouchMode(true);
                 place.setClickable(true);
+
+                phone.setEnabled(true);
+                phone.setFocusableInTouchMode(true);
+                phone.setClickable(true);
 
                 return true;
             case R.id.Delete_Contact:

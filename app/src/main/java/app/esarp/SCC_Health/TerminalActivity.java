@@ -86,7 +86,7 @@ public class TerminalActivity extends Activity {
 
 
                 textRead.append(message + "\n");
-               /* Intent i = new Intent(TerminalActivity.this, BodyTempActivity.class);
+               /* Intent i = new Intent(TerminalActivity.this, FluActivity.class);
                 String strName = message;
                 i.putExtra("STRING_I_NEED", strName);
                 startActivity(i);*/

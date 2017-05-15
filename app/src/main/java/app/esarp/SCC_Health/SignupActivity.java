@@ -67,11 +67,7 @@ public class SignupActivity extends Activity {
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
+
 
         /*String name = _nameText.getText().toString();
         //String address = _addressText.getText().toString();
@@ -82,16 +78,7 @@ public class SignupActivity extends Activity {
 
         // TODO: Implement your own signup logic here.
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+
     }
 
 
@@ -108,6 +95,11 @@ public class SignupActivity extends Activity {
     }
 
     public void WritePw(View v) {
+        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Creating Account...");
+        progressDialog.show();
         // add-write text into file
         try {
             FileOutputStream fileout=openFileOutput("username.txt", MODE_PRIVATE);
@@ -136,6 +128,17 @@ public class SignupActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        // On complete call either onSignupSuccess or onSignupFailed
+                        // depending on success
+                        //onSignupSuccess();
+                        // onSignupFailed();
+                        progressDialog.dismiss();
+                    }
+                }, 30000);
         // Go to login page
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

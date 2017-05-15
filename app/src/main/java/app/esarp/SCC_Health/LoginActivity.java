@@ -1,5 +1,6 @@
 package app.esarp.SCC_Health;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -90,6 +91,14 @@ public class LoginActivity extends FragmentActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+                        R.style.AppTheme_Dark_Dialog);
+                progressDialog.setIndeterminate(true);
+                progressDialog.setMessage("Authenticating...");
+                progressDialog.show();
+
+
                 if((ed1.getText().toString().equals("a") &&
                         ed2.getText().toString().equals("a"))||(ed1.getText().toString().matches(name) &&
                         ed2.getText().toString().matches(pw))) {
@@ -115,6 +124,18 @@ public class LoginActivity extends FragmentActivity {
                         b1.setEnabled(false);
                     }
                 }
+
+
+                //progressDialog.dismiss();
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                //onLoginSuccess();
+                                // onLoginFailed();
+                                progressDialog.dismiss();
+                            }
+                        }, 3000);
             }
         });
 
