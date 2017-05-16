@@ -175,7 +175,8 @@
         <activity android:name=".GeneralSettingsActivity" />
         <activity android:name=".WifiActivity" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".CloudActivity"></activity>
+        <activity android:name=".CloudActivity" />
+        <activity android:name=".FluAlgorithm"></activity>
     </application>
 
 </manifest>

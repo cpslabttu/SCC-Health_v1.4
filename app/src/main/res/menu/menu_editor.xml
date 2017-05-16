@@ -25,4 +25,8 @@
         android:id="@+id/action_history"
         android:title="See History"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_algorithm"
+        android:title="Select Algorithm"
+        app:showAsAction="never" />
 </menu>

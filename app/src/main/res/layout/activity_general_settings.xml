@@ -19,7 +19,7 @@
         android:layout_margin="20dp"
         android:textAlignment="center"
         android:background="@drawable/button"
-        android:text="User Account" />
+        android:text=" Create User Account" />
 
     <TextView
         android:id="@+id/profile"

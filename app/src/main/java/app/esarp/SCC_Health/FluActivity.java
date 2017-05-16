@@ -539,6 +539,10 @@ String currentDateTime;
                 // Navigate back to parent activity (CatalogActivity)
                 NavUtils.navigateUpFromSameTask(this);
                 return true;*/
+
+            case R.id.action_algorithm:
+                Intent algIntent = new Intent(FluActivity.this, FluAlgorithm.class);
+                startActivity(algIntent);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -16,15 +16,15 @@
     <string name="category_sleepapnea">Sleep apnea</string>
 
     <!-- Category name for the vocabulary words for family members [CHAR LIMIT=20] -->
-    <string name="category_bodytemp">Body Temperature</string>
+    <string name="category_bodytemp">Flu</string>
 
     <!-- Category name for the vocabulary words for family members [CHAR LIMIT=20] -->
     <string name="category_lab">Diagnostic </string>
 
     <!-- Category name for the vocabulary words for family members [CHAR LIMIT=20] -->
-    <string name="category_profile">Subject Profiles</string>
+    <string name="category_profile">Manage Subject Profiles</string>
     <!-- Category name for the vocabulary words for numbers [CHAR LIMIT=20] -->
-    <string name="category_bluetooth">Bluetooth</string>
+    <string name="category_bluetooth">Setup Bluetooth</string>
 
     <string name="category_wifi">Manual Cloud Sharing</string>
     <string name="category_setting">Settings</string>
@@ -155,7 +155,7 @@
     <string name="cancel">Cancel</string>
 
     <!-- Label for the pet's breed if the breed is unknown [CHAR LIMIT=20] -->
-    <string name="unknown_breed">Unknown breed</string>
+    <string name="unknown_breed">Unknown</string>
 
     <string name="Add_New">Add New</string>
     <string name="edit">Edit Contact</string>
