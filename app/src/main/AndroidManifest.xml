@@ -20,7 +20,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat">
         <activity
             android:name=".BluetoothActivity"
             android:label="@string/category_bluetooth" />
@@ -48,10 +48,10 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:parentActivityName=".LoginActivity">
+            android:parentActivityName=".WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="app.esarp.SCC_Health.LoginActivity" />
+                android:value="app.esarp.SCC_Health.WelcomeActivity" />
         </activity>
         <activity
             android:name=".ConnectionSettingsActivity"
@@ -137,7 +137,7 @@
         </activity>
         <activity
             android:name=".DisplayContact"
-            android:label="Contact Details"
+            android:label="Details"
             android:parentActivityName=".ProfileActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -172,11 +172,23 @@
             android:exported="true" />
 
         <activity android:name=".WelcomeActivity" />
-        <activity android:name=".GeneralSettingsActivity" />
+        <activity
+            android:name=".GeneralSettingsActivity"
+            android:label="Settings"
+            android:parentActivityName=".HomeActivity" />
         <activity android:name=".WifiActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".CloudActivity" />
-        <activity android:name=".FluAlgorithm"></activity>
+        <activity android:name=".FluAlgorithm"
+            android:label="Test Methods"
+            android:parentActivityName=".FluActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.esarp.SCC_Health.FluActivity" />
+        </activity>
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

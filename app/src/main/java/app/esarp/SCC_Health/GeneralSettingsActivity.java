@@ -1,17 +1,20 @@
 package app.esarp.SCC_Health;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-public class GeneralSettingsActivity extends Activity {
+public class GeneralSettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general_settings);
-
+// show action bar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
 
         // Find the View that shows the profile category
         TextView bluetooth = (TextView) findViewById(R.id.bluetooth);

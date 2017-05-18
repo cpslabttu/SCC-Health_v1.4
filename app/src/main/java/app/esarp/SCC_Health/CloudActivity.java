@@ -69,6 +69,7 @@ public class CloudActivity extends Activity implements View.OnClickListener {
 
         String url="https://sharminafrozsheba.000webhostapp.com/insertjsondb.php";
 
+
     public static String POST(String url, Person person)
     {
         InputStream inputStream = null;

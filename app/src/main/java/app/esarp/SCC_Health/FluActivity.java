@@ -1,12 +1,13 @@
 package app.esarp.SCC_Health;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,10 +29,10 @@ import java.util.Date;
 
 import static app.esarp.SCC_Health.DisplayContact.READ_BLOCK_SIZE;
 
-public class FluActivity extends Activity {
+public class FluActivity extends AppCompatActivity {
 
-String currentDateTime;
-    double ratingOfEOI=0.0;
+    String currentDateTime;
+    double ratingOfEOI = 0.0;
     Float severityRating;
     String s;
     Intent mIntent;
@@ -66,6 +67,10 @@ String currentDateTime;
             Toast.makeText(this,"b off",Toast.LENGTH_SHORT).show();
 */
         setContentView(R.layout.activity_body_temp);
+
+        // show action bar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
 
         /*startService(new Intent(this, BluetoothSPP.class));
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);*/
@@ -469,7 +474,7 @@ String currentDateTime;
                 // Save record to database
                 insertTemp();
                 // Exit activity
-                finish();
+                //finish();
                 return true;
             // Respond to a click on the "Share to SCC" menu option
             case R.id.action_share:
@@ -515,30 +520,13 @@ String currentDateTime;
                 return true;
             case R.id.action_history:
 
-// Create a new intent to open the {@link Temperature History}
-                Intent temperatureHistoryIntent = new Intent(FluActivity.this, Temp_HistoryActivity.class);
-
-                // Start the new activity
-                startActivity(temperatureHistoryIntent);
-                finish();
-                return true;
-
-
-/*
                 // Create a new intent to open the {@link Temperature History}
                 Intent temperatureHistoryIntent = new Intent(FluActivity.this, Temp_HistoryActivity.class);
 
                 // Start the new activity
                 startActivity(temperatureHistoryIntent);
                 finish();
-                return true;*/
-
-
-            // Respond to a click on the "Up" arrow button in the app bar
-           /* case android.R.id.home:
-                // Navigate back to parent activity (CatalogActivity)
-                NavUtils.navigateUpFromSameTask(this);
-                return true;*/
+                return true;
 
             case R.id.action_algorithm:
                 Intent algIntent = new Intent(FluActivity.this, FluAlgorithm.class);
@@ -552,14 +540,6 @@ String currentDateTime;
 
 // end of Temperature data save
 
-
-    /*@Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        //unregister our receiver
-        this.unregisterReceiver(this.mReceiver);
-    }*/
 }
 
 

@@ -10,7 +10,7 @@
         android:id="@+id/action_save"
         android:title="@string/action_save"
         android:icon="@drawable/ic_done"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_share"
@@ -22,11 +22,12 @@
         android:title="Send to Doctor"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_history"
-        android:title="See History"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_algorithm"
-        android:title="Select Algorithm"
-        app:showAsAction="never" />
+        android:title="Method"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_history"
+        android:title="History"
+        app:showAsAction="ifRoom" />
+
 </menu>

@@ -4,7 +4,7 @@
     <string name="app_name">SCC Health</string>
 
     <!-- Category name for phrases [CHAR LIMIT=20] -->
-    <string name="category_about">About</string>
+    <string name="category_about">Project Synopsis</string>
 
     <!-- Category name for phrases [CHAR LIMIT=20] -->
     <string name="category_arrhythmia">Arrhythmia</string>
@@ -158,8 +158,8 @@
     <string name="unknown_breed">Unknown</string>
 
     <string name="Add_New">Add New</string>
-    <string name="edit">Edit Contact</string>
-    <string name="delete">Delete Contact</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
     <string name="title_activity_display_contact">DisplayContact</string>
     <string name="name">Name</string>
     <string name="phone">PID</string>

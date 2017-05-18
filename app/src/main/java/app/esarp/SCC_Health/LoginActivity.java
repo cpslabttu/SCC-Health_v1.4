@@ -1,7 +1,9 @@
 package app.esarp.SCC_Health;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -25,6 +27,7 @@ public class LoginActivity extends FragmentActivity {
     private String name, pw;
     TextView tx1, tx2;
     int counter = 3;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,16 +106,17 @@ public class LoginActivity extends FragmentActivity {
                         ed2.getText().toString().equals("a"))||(ed1.getText().toString().matches(name) &&
                         ed2.getText().toString().matches(pw))) {
 
+                    // pass login details to shared preferences
+                    SharedPreferences prefs = getSharedPreferences("logindetails",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("loginname",ed1.getText().toString()).commit();
                     Intent MainActivityIntent = new Intent(LoginActivity.this, WelcomeActivity.class);
-
                     // Start the new activity
                     startActivity(MainActivityIntent);
 
-                       /* Toast.makeText(getApplicationContext(),
-                                "Redirecting...",Toast.LENGTH_SHORT).show();*/
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Wrong Credentials",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Wrong Username or Password",Toast.LENGTH_LONG).show();
 
                     tx1.setVisibility(View.VISIBLE);
                     tx2.setVisibility(View.VISIBLE);

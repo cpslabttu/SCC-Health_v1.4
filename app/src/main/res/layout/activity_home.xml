@@ -18,23 +18,25 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:background="#FA8072"
-        android:text="Know  about  the project,  create  your profile, setup network connections and diagnose your disease."
+        android:text=""
         android:paddingBottom="10dp"/>
 
     <TextView
         android:id="@+id/about"
         style="@style/CategoryStyle"
         android:layout_margin="20dp"
+        android:textSize="12dp"
         android:textAlignment="center"
         android:background="@drawable/button"
-        android:text="@string/category_about" />
+        android:text=" " />
     <TextView
         android:id="@+id/setting"
         style="@style/CategoryStyle"
         android:layout_margin="20dp"
+        android:textSize="12dp"
         android:background="@drawable/button"
         android:textAlignment="center"
-        android:text="@string/category_setting" />
+        android:text=" " />
     <!--<TextView
         android:id="@+id/profile"
         style="@style/CategoryStyle"
@@ -47,12 +49,9 @@
         android:id="@+id/lab"
         style="@style/CategoryStyle"
         android:layout_margin="20dp"
+        android:textSize="12dp"
         android:background="@drawable/button"
         android:textAlignment="center"
-        android:text="@string/category_lab" />
-
-
-
-
+        android:text=" " />
 
 </LinearLayout>

@@ -136,6 +136,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/gradient"
                 android:onClick="run"
+                android:textColor="#000000"
                 android:text="@string/save" />
 
             <Button
@@ -148,6 +149,7 @@
                 android:background="@drawable/gradient"
                 android:onClick="WriteBtn"
                 android:text="Activate"
+                android:textColor="#000000"
                 android:shape="oval" />
 
            <!-- <ImageButton

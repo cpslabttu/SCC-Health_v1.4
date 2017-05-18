@@ -1,16 +1,17 @@
 package app.esarp.SCC_Health;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DB_login extends Activity {
+public class DB_login extends AppCompatActivity {
     Button b1,b2;
     EditText ed1,ed2;
 
@@ -21,6 +22,9 @@ public class DB_login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_db_login);
+        // show action bar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
 
         b1 = (Button)findViewById(R.id.button);
         ed1 = (EditText)findViewById(R.id.editText);

@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 
 public class SignupActivity extends Activity {
     private static final String TAG = "SignupActivity";
-    EditText _nameText, _passwordText;
+    EditText _nameText, _passwordText,_repasswordText;
     /*@Bind(R.id.input_name)
     EditText _nameText;
     //@Bind(R.id.input_address) EditText _addressText;
@@ -35,6 +35,7 @@ public class SignupActivity extends Activity {
 
         _nameText=(EditText)findViewById(R.id.input_name);
         _passwordText=(EditText)findViewById(R.id.input_password);
+        _repasswordText=(EditText)findViewById(R.id.input_reEnterPassword);
         //_emailText=(EditText)findViewById(R.id.input_email);
        // ButterKnife.bind(this);
 
@@ -100,6 +101,16 @@ public class SignupActivity extends Activity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
+
+        if(!(_passwordText.getText().toString()).equals(_repasswordText.getText().toString()))
+        {
+            Toast.makeText(getBaseContext(), "Password Mismatch!",
+                    Toast.LENGTH_LONG).show();
+        }
+
+        else
+
+        {
         // add-write text into file
         try {
             FileOutputStream fileout=openFileOutput("username.txt", MODE_PRIVATE);
@@ -129,6 +140,14 @@ public class SignupActivity extends Activity {
             e.printStackTrace();
         }
 
+
+
+        // Go to login page
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        }
+
+
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
@@ -138,10 +157,7 @@ public class SignupActivity extends Activity {
                         // onSignupFailed();
                         progressDialog.dismiss();
                     }
-                }, 30000);
-        // Go to login page
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+                }, 3000);
     }
 
     public boolean validate() {

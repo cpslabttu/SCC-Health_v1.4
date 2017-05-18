@@ -1,11 +1,12 @@
 package app.esarp.SCC_Health;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
 
-public class DisplayContact extends Activity {
+public class DisplayContact extends AppCompatActivity {
 
     int from_Where_I_Am_Coming = 0;
     private ProfileDbHelper mydb ;
@@ -36,6 +37,10 @@ public class DisplayContact extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_contact);
+        // show action bar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
+
         name = (TextView) findViewById(R.id.editTextName);
 
         street = (TextView) findViewById(R.id.editTextStreet);

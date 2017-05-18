@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +31,7 @@ import app.esarp.bluetooth.library.DeviceList;
 
 import static app.esarp.SCC_Health.DisplayContact.READ_BLOCK_SIZE;
 
-public class AsthmaActivity extends Activity {
+public class AsthmaActivity extends AppCompatActivity {
     BluetoothSPP bt;
     Button test;
     TextView hrData, oximetryData, connectionRead;
@@ -47,7 +49,9 @@ public class AsthmaActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asthma);
 
-
+// show action bar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
         TextView mNameText = (TextView) findViewById(R.id.display_name);
         bt = new BluetoothSPP(this);
         // receive intent

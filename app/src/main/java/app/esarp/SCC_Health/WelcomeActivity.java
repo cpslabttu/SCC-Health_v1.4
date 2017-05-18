@@ -1,8 +1,9 @@
 package app.esarp.SCC_Health;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,16 +11,28 @@ import android.widget.TextView;
 
 //git@gitlab.com:mjrahman/smartandconnected.git
 
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
+        /*ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();*/
 
         /*Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);*/
+        // receive user name and display in a text view
+       /* Intent userIntent = getIntent();
+        String userName=userIntent.getStringExtra("user");*/
+        TextView displayUsername = (TextView) findViewById(R.id.uName);
+
+
+
+        //Save the String value
+        SharedPreferences prefs = getSharedPreferences("logindetails",MODE_PRIVATE);
+        String Uname =  prefs.getString("loginname","Default");
+        displayUsername.setText("\t\t:) "+Uname);
 
 
         // Find the View that shows the explorer
