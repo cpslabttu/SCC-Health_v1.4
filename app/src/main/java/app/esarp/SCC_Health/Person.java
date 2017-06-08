@@ -5,38 +5,37 @@ package app.esarp.SCC_Health;
  */
 
 public class Person {
-    private String name;
-    private String country;
-    private String twitter;
+    private String patientID;
+    private String gridCode;
+    private String diseaseType;
 
     private String eoi;
     private String time;
     private String algorithm;
 
-    public String getName() {
-        return name;
+    public String getPatientID() {
+        return patientID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
     }
 
-    public String getCountry() {
-        return country;
+    public String getGridCode() {
+        return gridCode;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setGridCode(String gridCode) {
+        this.gridCode = gridCode;
     }
 
-    public String getTwitter() {
-        return twitter;
+    public String getDiseaseType() {
+        return diseaseType;
     }
 
-    public void setTwitter(String twitter) {
-        this.twitter = twitter;
+    public void setDiseaseType(String diseaseType) {
+        this.diseaseType = diseaseType;
     }
-
     public String getEoi() {
         return eoi;
     }
@@ -48,17 +47,25 @@ public class Person {
     public String getTime() {
         return time;
     }
-    public String getAlgorithm() {
-        return algorithm;
-    }
+
     public void setTime(String time) {
         this.time = time;
     }
 
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+
+
     @Override
     public String toString() {
-        return "Person [ID=" + name + ", GRID=" + country + ", Disease Type="
-                + twitter + "]";
+        return "Person [ID=" + patientID + ", GRID=" + gridCode + ", Disease Type="
+                + diseaseType +", eoi="+eoi+", datetime="+time+", Algorithm="+algorithm+ "]";
     }
 
 

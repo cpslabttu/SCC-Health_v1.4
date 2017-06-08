@@ -4,12 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -118,7 +118,7 @@ public class LoginActivity extends FragmentActivity {
                 else{
                     Toast.makeText(getApplicationContext(), "Wrong Username or Password",Toast.LENGTH_LONG).show();
 
-                    tx1.setVisibility(View.VISIBLE);
+                    /*tx1.setVisibility(View.VISIBLE);
                     tx2.setVisibility(View.VISIBLE);
                     tx1.setBackgroundColor(Color.RED);
                     counter--;
@@ -126,7 +126,7 @@ public class LoginActivity extends FragmentActivity {
 
                     if (counter == 0) {
                         b1.setEnabled(false);
-                    }
+                    }*/
                 }
 
 
@@ -159,6 +159,10 @@ public class LoginActivity extends FragmentActivity {
                 fragmentTransaction.add(R.id.frag1,f1);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+                // hide virtual keyboard
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(ed1.getWindowToken(),
+                        InputMethodManager.RESULT_UNCHANGED_SHOWN);
             }
         });
     }

@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +31,7 @@ import app.esarp.bluetooth.library.BluetoothSPP.BluetoothConnectionListener;
 import app.esarp.bluetooth.library.BluetoothState;
 import app.esarp.bluetooth.library.DeviceList;
 
-public class SleepApnea extends Activity {
+public class SleepApnea extends AppCompatActivity {
 
     BluetoothSPP bt;
     Button test, csvReader;
@@ -48,6 +50,10 @@ public class SleepApnea extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_apnea);
         bt = new BluetoothSPP(this);
+        // show actionbar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
+
         // receive intent
         test=(Button) findViewById(R.id.test);
         csvReader=(Button) findViewById(R.id.readCSV);

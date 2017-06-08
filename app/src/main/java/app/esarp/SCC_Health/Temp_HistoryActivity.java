@@ -1,15 +1,17 @@
 package app.esarp.SCC_Health;
 
-import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class Temp_HistoryActivity extends Activity {
+public class Temp_HistoryActivity extends AppCompatActivity {
     /** Database helper that will provide us access to the database */
     private TempDbHelper mDbHelper;
 
@@ -18,18 +20,11 @@ public class Temp_HistoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_history);
 
-        /*// Setup FAB to open EditorActivity
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
-                startActivity(intent);
-            }
-        });*/
+        // show action bar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
 
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
+
         mDbHelper = new TempDbHelper(this);
     }
 
@@ -151,14 +146,19 @@ public class Temp_HistoryActivity extends Activity {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
+
             case R.id.action_insert_dummy_data:
-                insertTemp();
+                //insertTemp();
                 displayDatabaseInfo();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
                 // Do nothing for now
                 return true;
+            case R.id.action_trends:
+                Intent lineGraph = new Intent(Temp_HistoryActivity.this, ShowWebChart.class);
+                startActivity(lineGraph);
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -16,7 +16,10 @@ public class cBaseApplication extends Application {
     {
         super.onCreate();
         bluetoothSPP = new BluetoothSPP(this);
+
+
+    }
     }
 
-}
+
 

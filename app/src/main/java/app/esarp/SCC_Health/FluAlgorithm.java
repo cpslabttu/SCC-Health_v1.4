@@ -17,10 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -59,6 +57,7 @@ public class FluAlgorithm extends AppCompatActivity {
                         int columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
                         if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(columnIndex)) {
 
+                            Toast.makeText(getBaseContext(), "Download Finished", Toast.LENGTH_SHORT).show();
                             /*ImageView view = (ImageView) findViewById(R.id.imageView1);
                             String uriString = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
                             view.setImageURI(Uri.parse(uriString));*/
@@ -79,7 +78,7 @@ public class FluAlgorithm extends AppCompatActivity {
         super.onStart();
 
        BackTask bt=new BackTask();
-        bt.execute("http://www.textfiles.com/ufo/3-19disc.txt");
+        bt.execute("https://github.com/SCChealth/EAGER/raw/master/hello.dex");
 
 
     }
@@ -100,7 +99,6 @@ public class FluAlgorithm extends AppCompatActivity {
         }
 
 
-
         protected Void doInBackground(String...params){
             URL url;
             try {
@@ -110,7 +108,7 @@ public class FluAlgorithm extends AppCompatActivity {
                 //make a request to server
                 HttpURLConnection con=(HttpURLConnection)url.openConnection();
                 //get InputStream instance
-                InputStream is=con.getInputStream();
+                /*InputStream is=con.getInputStream();
                 //create BufferedReader object
                 BufferedReader br=new BufferedReader(new InputStreamReader(is));
                 String line;
@@ -120,7 +118,7 @@ public class FluAlgorithm extends AppCompatActivity {
 
                 }
 
-                br.close();
+                br.close();*/
 
             }catch (Exception e) {
                 e.printStackTrace();
@@ -132,24 +130,22 @@ public class FluAlgorithm extends AppCompatActivity {
 
         }
 
-
         protected void onPostExecute(Void result){
             //close dialog
             if(pd!=null)
                 pd.dismiss();
             //display read text in TextVeiw
-            txtview.setText(text);
-            txtview.append("end");
+            //txtview.setText(text);
+            //txtview.append("end");
 
         }
-
 
     }
 
     public void onClick(View view) {
        dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(
-                Uri.parse("http://thewalter.net/stef/software/rtfx/sample.rtf"));
+                Uri.parse("https://github.com/SCChealth/EAGER/raw/master/hello.dex"));
 
         enqueue = dm.enqueue(request);
 

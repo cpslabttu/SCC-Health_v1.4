@@ -1,6 +1,5 @@
 package app.esarp.SCC_Health;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class ArrhythmiaActivity extends AppCompatActivity {
 
@@ -23,8 +24,8 @@ public class ArrhythmiaActivity extends AppCompatActivity {
         myActionBar.show();
 
 
-        getActionBar().setIcon(
-                new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        /*getActionBar().setIcon(
+                new ColorDrawable(getResources().getColor(android.R.color.transparent)));*/
         final TextView btnOpenPopup = (TextView) findViewById(R.id.info);
         btnOpenPopup.setOnClickListener(new Button.OnClickListener() {
 

@@ -47,7 +47,7 @@ import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_TABLE_NAME;
 public class CloudActivity extends Activity implements View.OnClickListener {
 
     TextView tvIsConnected;
-    EditText etName, etCountry, etdType, etTime, etEOI, etAlg, addressET;
+    EditText etName, etCountry, etdiseaseType, etTime, etEOI, etAlg, addressET;
     Button btnPost;
     String Grid;
     Person person;
@@ -87,9 +87,9 @@ public class CloudActivity extends Activity implements View.OnClickListener {
             // 3. build jsonObject {"ID":"p11","GRID_CODE":"c3","DT":"BT","EOI":"5.6","TIME":"2017-04-10"}
             // String js = etName.getText().toString();
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("ID",person.getName());
-            jsonObject.put("GRID_CODE", person.getCountry());
-            jsonObject.put("DT", person.getTwitter());
+            jsonObject.put("ID",person.getPatientID());
+            jsonObject.put("GRID_CODE", person.getGridCode());
+            jsonObject.put("DT", person.getDiseaseType());
             jsonObject.put("EOI",person.getEoi());
             jsonObject.put("TIME",person.getTime());
             jsonObject.put("Alg",person.getAlgorithm());
@@ -157,7 +157,7 @@ public class CloudActivity extends Activity implements View.OnClickListener {
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
         etName = (EditText) findViewById(R.id.etName);
         etCountry = (EditText) findViewById(R.id.etCountry);
-        etdType = (EditText) findViewById(R.id.etTwitter);
+        etdiseaseType = (EditText) findViewById(R.id.etDType);
         btnPost = (Button) findViewById(R.id.btnPost);
 
         etTime =(EditText) findViewById(R.id.etTime);
@@ -179,7 +179,7 @@ public class CloudActivity extends Activity implements View.OnClickListener {
 
         // set disease type
         //String DT="BT";
-        etdType.setText(diseaseType);
+        etdiseaseType.setText(diseaseType);
 
         // set patient ID
         getSubject();
@@ -246,12 +246,12 @@ public class CloudActivity extends Activity implements View.OnClickListener {
                     Toast.makeText(getBaseContext(), "Enter some data!", Toast.LENGTH_LONG).show();
                 // call AsynTask to perform network operation on separate thread
                 person =new Person();
-                person.setName(etName.getText().toString());
-                person.setCountry(etCountry.getText().toString());
+                person.setPatientID(etName.getText().toString());
+                person.setGridCode(etCountry.getText().toString());
                 person.setEoi(etEOI.getText().toString());
-                person.setTwitter(etdType.getText().toString());
+                person.setDiseaseType(etdiseaseType.getText().toString());
                 person.setTime(etTime.getText().toString());
-
+                person.setAlgorithm(etAlg.getText().toString());
                 new HttpAsyncTask().execute(url);
                 break;
         }
@@ -263,7 +263,7 @@ public class CloudActivity extends Activity implements View.OnClickListener {
             return false;
         else if (etCountry.getText().toString().trim().equals(""))
             return false;
-        else if (etdType.getText().toString().trim().equals(""))
+        else if (etdiseaseType.getText().toString().trim().equals(""))
             return false;
         else
             return true;

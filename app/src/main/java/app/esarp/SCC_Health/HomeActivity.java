@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         // Find the View that shows the  intro information
         TextView intro = (TextView) findViewById(R.id.espeech);
         intro.setVisibility(View.INVISIBLE);
-
+        Log.i("Home", "Called");
 
         // Find the View that shows the  project information
         TextView about = (TextView) findViewById(R.id.about);

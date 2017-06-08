@@ -2,23 +2,82 @@ package app.esarp.SCC_Health;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.webkit.JavascriptInterface;
+import android.util.Log;
 import android.webkit.WebView;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_CITY;
+import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_EMAIL;
+import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_ID;
+import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_NAME;
+import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_PHONE;
+import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_STREET;
+import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_TABLE_NAME;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class ShowWebChart extends Activity {
-
+    private ProfileDbHelper mydb;
     WebView webView;
     int num1, num2, num3, num4, num5, num6;
+    LineGraphSeries<DataPoint>series;
+    GraphView graph;
+    SQLiteDatabase ourDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_web_chart);
 
-        Intent intent = getIntent();
+        graph = (GraphView) findViewById(R.id.graph);
+
+
+        mydb = new ProfileDbHelper(this);
+        ourDatabase = mydb.getReadableDatabase();
+
+        //graph.addSeries(series);
+
+
+
+        String[] columns = new String[]{CONTACTS_COLUMN_ID, CONTACTS_COLUMN_NAME, CONTACTS_COLUMN_EMAIL, CONTACTS_COLUMN_STREET, CONTACTS_COLUMN_CITY, CONTACTS_COLUMN_PHONE};
+        Cursor c = ourDatabase.query(CONTACTS_TABLE_NAME, columns, null, null, null, null, null);
+        DataPoint[] dp = new DataPoint[c.getCount()];
+        int iRow = c.getColumnIndex(CONTACTS_COLUMN_PHONE);
+
+        for (int i = 0;i<c.getCount();i++) {
+            c.moveToNext();
+            dp[i]=new DataPoint(c.getInt(2),c.getInt(5));
+
+            Log.i("ValueFetched",""+dp[i]);
+
+        }
+
+        series = new LineGraphSeries <>(dp);
+// set manual X bounds
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(-150);
+        graph.getViewport().setMaxY(150);
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(4);
+        graph.getViewport().setMaxX(80);
+
+        // enable scaling and scrolling
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setScalableY(true);
+
+
+        graph.addSeries(series);
+        series.setDrawDataPoints(true);
+
+
+    }
+        /*Intent intent = getIntent();
         num1 = intent.getIntExtra("NUM1", 0);
         num2 = intent.getIntExtra("NUM2", 0);
         num3 = intent.getIntExtra("NUM3", 0);
@@ -59,6 +118,6 @@ public class ShowWebChart extends Activity {
         public int getNum5() {
             return num5;
         }
-    }
+    }*/
 
 }

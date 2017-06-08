@@ -27,10 +27,14 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Date;
 
+import app.esarp.bluetooth.library.BluetoothSPP;
+import app.esarp.bluetooth.library.BluetoothState;
+import app.esarp.bluetooth.library.DeviceList;
+
 import static app.esarp.SCC_Health.DisplayContact.READ_BLOCK_SIZE;
 
 public class FluActivity extends AppCompatActivity {
-
+    BluetoothSPP bt;
     String currentDateTime;
     double ratingOfEOI = 0.0;
     Float severityRating;
@@ -50,6 +54,7 @@ public class FluActivity extends AppCompatActivity {
 
     /** EditText field to enter the pet's EOI rating */
     private TextView mEoi;
+    private Button connectScanner;
 
 
     //temp db finish
@@ -58,7 +63,7 @@ public class FluActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        bt = new BluetoothSPP(this);
         // ((cBaseApplication)this.getApplicationContext()).myBlueComms.BluetoothConnectionListener();
 
        /* if(bt.isBluetoothEnabled())
@@ -82,7 +87,7 @@ public class FluActivity extends AppCompatActivity {
         mTemperature = (TextView) findViewById(R.id.display_bdt);
         mEoi = (TextView) findViewById(R.id.display_eoi);
 
-
+        connectScanner=(Button) findViewById(R.id.cScanner);
 
 // Find the View that shows the save button
         Button save = (Button) findViewById(R.id.save);
@@ -210,6 +215,20 @@ public class FluActivity extends AppCompatActivity {
                 });
 
                 popupWindow.showAsDropDown(btnOpenPopup, 50, -30);
+
+            }
+        });
+
+
+        connectScanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bt.setDeviceTarget(BluetoothState.DEVICE_OTHER);
+            /*
+			if(bt.getServiceState() == BluetoothState.STATE_CONNECTED)
+    			bt.disconnect();*/
+                Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+                startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
 
             }
         });
