@@ -62,7 +62,7 @@
 
 
             <TextView
-                android:id="@+id/tvTwitter"
+                android:id="@+id/tvDType"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/etTwitter"
@@ -70,7 +70,7 @@
                 android:text="Disease Type" />
 
             <EditText
-                android:id="@+id/etTwitter"
+                android:id="@+id/etDType"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/etCountry"
