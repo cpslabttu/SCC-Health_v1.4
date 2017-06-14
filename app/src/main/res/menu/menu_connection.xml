@@ -13,5 +13,28 @@
         android:id="@+id/menu_device_connect"
         android:orderInCategory="100"
         android:title="Connect with Scanner" />
+    <item
+        android:id="@+id/action_save"
+        android:title="@string/action_save"
+        android:icon="@drawable/ic_done"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_share"
+        android:title="Share with SCC"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sms"
+        android:title="Send to Doctor"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_algorithm"
+        android:title="Method"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_history"
+        android:title="History"
+        app:showAsAction="ifRoom" />
 
 </menu>

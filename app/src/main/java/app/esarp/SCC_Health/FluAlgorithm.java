@@ -1,5 +1,6 @@
 package app.esarp.SCC_Health;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Query;
@@ -14,14 +15,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import dalvik.system.DexClassLoader;
+
+@SuppressLint("NewApi")
 public class FluAlgorithm extends AppCompatActivity {
     private long enqueue;
     private DownloadManager dm;
@@ -29,8 +36,11 @@ public class FluAlgorithm extends AppCompatActivity {
     private String s;
     Activity context;
     private TextView txtview;
+    private String dexResult;
+    private int selection;
     Button b1;
     ProgressDialog pd;
+    DexClassLoader dexClassLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +51,45 @@ public class FluAlgorithm extends AppCompatActivity {
         ActionBar myActionBar = getSupportActionBar();
         myActionBar.show();
 
-        tv1=(TextView) findViewById(R.id.textDownload);
+
+        /*RadioGroup radioGroup = (RadioGroup) findViewById(R.id.rgMethod);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                if(checkedId==R.id.expAlg){
+                    //selection=2;
+                }
+            }
+        });*/
+        selection=2;
+        //tv1=(TextView) findViewById(R.id.textDownload);
         txtview=(TextView)findViewById(R.id.textview);
+        // prepare for dex class loading
+
+        CustomizedDexClassLoader.setContext(this);
+        switch(selection){
+
+            case 1: try {
+                dexClassLoader = CustomizedDexClassLoader.load("libflu.dex");
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e);
+            }
+
+            break;
+
+            case 2: try {
+                dexClassLoader = CustomizedDexClassLoader.load("expflu.dex");
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+        // download task
+
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -72,15 +119,46 @@ public class FluAlgorithm extends AppCompatActivity {
 
         /*BackTask bt=new BackTask();
         bt.execute("http://www.textfiles.com/news/bucks.txt");*/
+
+
     }
 
     public void onStart(){
         super.onStart();
 
-       BackTask bt=new BackTask();
-        bt.execute("https://github.com/SCChealth/EAGER/raw/master/hello.dex");
+        // load dex class
+        try {
+
+            Class params[] = { };
+            Object paramsObj[] = { };
+
+            Class<?> wordClass = dexClassLoader.loadClass("com.example.Algorithm");
+            Object iClass = wordClass.newInstance();
+            Method thisMethod = wordClass.getMethod("eoiValue", params);
+            dexResult=thisMethod.invoke(iClass, paramsObj).toString();
+
+        } catch (ClassNotFoundException e) {
+            Log.i("exception","Class Not Found");
+        } catch (NoSuchMethodException e) {
+            Log.i("exception","No Such Method");
+        } catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (InvocationTargetException e) {
+        } catch (InstantiationException e) {
+        }
+
+     // background task for download
+
+        BackTask bt=new BackTask();
+
+        switch(selection) {
+            case 1:
+                bt.execute("https://github.com/SCChealth/MEMPHIS/raw/master/libflu.dex");
+            case 2:
+                bt.execute("https://github.com/SCChealth/MEMPHIS/raw/master/expflu.dex");
 
 
+        }
     }
 
     //background process to download the file from internet
@@ -107,6 +185,8 @@ public class FluAlgorithm extends AppCompatActivity {
                 url = new URL(params[0]);
                 //make a request to server
                 HttpURLConnection con=(HttpURLConnection)url.openConnection();
+
+
                 //get InputStream instance
                 /*InputStream is=con.getInputStream();
                 //create BufferedReader object
@@ -144,11 +224,21 @@ public class FluAlgorithm extends AppCompatActivity {
 
     public void onClick(View view) {
        dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        DownloadManager.Request request = new DownloadManager.Request(
-                Uri.parse("https://github.com/SCChealth/EAGER/raw/master/hello.dex"));
+        switch(selection) {
+            case 1:
+                DownloadManager.Request  request = new DownloadManager.Request(
+                        Uri.parse("https://github.com/SCChealth/MEMPHIS/raw/master/libflu.dex"));
+                enqueue = dm.enqueue(request);
+            case 2:
+                DownloadManager.Request  request2 = new DownloadManager.Request(
+                        Uri.parse("https://github.com/SCChealth/MEMPHIS/raw/master/expflu.dex"));
+                enqueue = dm.enqueue(request2);
 
-        enqueue = dm.enqueue(request);
+        }
 
+
+
+        //request.setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, "libflu.dex");
     }
 
     public void showDownload(View view) {
@@ -156,4 +246,15 @@ public class FluAlgorithm extends AppCompatActivity {
         i.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);
         startActivity(i);
     }
+
+    public void executeDexLoad(View view) {
+        Log.i("DexLoad", "Called");
+        txtview.append(dexResult);
+
+
+
+    }
+
+
+
 }

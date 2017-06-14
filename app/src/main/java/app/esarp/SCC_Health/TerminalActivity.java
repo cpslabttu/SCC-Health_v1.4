@@ -21,6 +21,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +44,7 @@ import app.esarp.bluetooth.library.BluetoothSPP.OnDataReceivedListener;
 import app.esarp.bluetooth.library.BluetoothState;
 import app.esarp.bluetooth.library.DeviceList;
 
-public class TerminalActivity extends Activity {
+public class TerminalActivity extends AppCompatActivity {
     BluetoothSPP bt;
 
     TextView textStatus, textRead;
@@ -60,6 +62,9 @@ public class TerminalActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terminal);
         Log.i("Check", "onCreate");
+
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
 
         textRead = (TextView) findViewById(R.id.textRead);
         textStatus = (TextView) findViewById(R.id.textStatus);

@@ -65,7 +65,7 @@
                 android:id="@+id/tvDType"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/etTwitter"
+                android:layout_alignBaseline="@+id/etDType"
                 android:layout_below="@+id/tvCountry"
                 android:text="Disease Type" />
 
@@ -74,7 +74,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/etCountry"
-                android:layout_toRightOf="@+id/tvTwitter" />
+                android:layout_toRightOf="@+id/tvDType" />
 
 
             <TextView
@@ -82,14 +82,14 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/etEOI"
-                android:layout_below="@+id/tvTwitter"
+                android:layout_below="@+id/tvDType"
                 android:text="EOI" />
 
             <EditText
                 android:id="@+id/etEOI"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/etTwitter"
+                android:layout_below="@+id/etDType"
                 android:layout_toRightOf="@+id/tvEoi" />
 
             <TextView

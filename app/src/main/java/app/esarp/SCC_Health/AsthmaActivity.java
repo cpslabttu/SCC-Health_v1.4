@@ -248,7 +248,7 @@ public class AsthmaActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+   // @Override
   /* public void onStart() {
         super.onStart();
         if (!mBoundService.isBluetoothEnabled()) {

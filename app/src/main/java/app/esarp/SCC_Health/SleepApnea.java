@@ -22,14 +22,18 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 
 import app.esarp.bluetooth.library.BluetoothSPP;
 import app.esarp.bluetooth.library.BluetoothSPP.BluetoothConnectionListener;
 import app.esarp.bluetooth.library.BluetoothState;
 import app.esarp.bluetooth.library.DeviceList;
+
+import static app.esarp.SCC_Health.DisplayContact.READ_BLOCK_SIZE;
 
 public class SleepApnea extends AppCompatActivity {
 
@@ -54,7 +58,33 @@ public class SleepApnea extends AppCompatActivity {
         ActionBar myActionBar = getSupportActionBar();
         myActionBar.show();
 
-        // receive intent
+        // Set active profile
+        String s = "";
+        TextView mNameText = (TextView) findViewById(R.id.display_name);
+        //reading profile from file
+        try {
+            FileInputStream fileIn = openFileInput("mytextfile.txt");
+            InputStreamReader InputRead = new InputStreamReader(fileIn);
+            char[] inputBuffer = new char[READ_BLOCK_SIZE];
+            /*String s="";*/
+            int charRead;
+
+            while ((charRead = InputRead.read(inputBuffer)) > 0) {
+                // char to string conversion
+                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
+                s += readstring;
+            }
+            InputRead.close();
+            /*mNameText.setText(s);*/
+            /*Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();*/
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mNameText.setText(s);
+
+        // set views
+
         test=(Button) findViewById(R.id.test);
         csvReader=(Button) findViewById(R.id.readCSV);
         textReceived = (TextView) findViewById(R.id.display_name);

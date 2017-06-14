@@ -29,6 +29,7 @@ public class LoginActivity extends FragmentActivity {
     int counter = 3;
     private Context context;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

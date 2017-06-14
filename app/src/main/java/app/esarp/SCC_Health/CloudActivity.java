@@ -54,7 +54,10 @@ public class CloudActivity extends Activity implements View.OnClickListener {
     private ProfileDbHelper mydb ;
     //private FluActivity flu;
     private String activeProfile, ptAddress, ptID;
-    private String diseaseType;
+    private String diseaseType="";
+    private String eoiValue="";
+    private String dateTime="";
+    private String actAlg="";
     // to get long lat
     private static Context context;
     double x, y, Latitude, Longitude;
@@ -171,22 +174,32 @@ public class CloudActivity extends Activity implements View.OnClickListener {
         Intent diseaseIntent = getIntent();
         activeProfile=diseaseIntent.getStringExtra("profile");
         diseaseType=diseaseIntent.getStringExtra("DT");
-
+        eoiValue=diseaseIntent.getStringExtra("EOI");
+        dateTime=diseaseIntent.getStringExtra("Time");
+        actAlg=diseaseIntent.getStringExtra("Algorithm");
 
         Log.i("profile",activeProfile);
 
         // fillup the fields to be shared
 
         // set disease type
-        //String DT="BT";
         etdiseaseType.setText(diseaseType);
 
         // set patient ID
         getSubject();
 
+        // set eoi
+        etEOI.setText(eoiValue);
+
+        // set date & time
+        etTime.setText(dateTime);
+
+        //set algorithm info
+        etAlg.setText(actAlg);
 
         //getGridCode(address);
         // set grid code
+        getGridCode(ptAddress);
 
 
         // check if you are connected or not
@@ -208,7 +221,7 @@ public class CloudActivity extends Activity implements View.OnClickListener {
         addressButton = (Button) findViewById(R.id.addressButton);
 
         //String address2 = addressET.getText().toString();
-        //getGridCode(ptAddress);
+
 
         addressButton.setOnClickListener(new View.OnClickListener() {
             @Override

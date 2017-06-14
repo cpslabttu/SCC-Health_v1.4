@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
+                android:textColor="#000000"
                 android:text="Instruction:\n\n1. Put on the wearable Pulse Oximetry Sensor\n2.Switch on the Scanner\n3.Click on 'Connect Scanner'\n4.Click on 'Start Test'\n\n" />
 
             <Button
