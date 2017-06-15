@@ -53,7 +53,7 @@ public class FluActivity extends AppCompatActivity {
     private boolean timeKeyReceived = false;
     private boolean poReceived=false;
     private int sensor=1;
-    private String tempReceived;
+    private String tempReceived, eoiValue;
     private String currentDateTime="";
     private TextView Vdatetime, gradient, Textv, Veoi,Vprompt;
     //String mealId = " ";
@@ -158,9 +158,7 @@ public class FluActivity extends AppCompatActivity {
                 GradientDrawable.Orientation.LEFT_RIGHT, colors);
         gradient.setBackground(gd);
 
-        // get date and time
 
-        currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
 
 
 // Check History
@@ -278,6 +276,9 @@ public class FluActivity extends AppCompatActivity {
                 //textReceived.append(message + "\n");
                 if (timeKeyReceived == true) {
                     //receive data
+                    // get date and time
+
+                    currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
                     //Textv.append(message + "\n");
                     tempReceived = message;
                     Log.i("tempReceived", tempReceived);
@@ -408,7 +409,7 @@ public class FluActivity extends AppCompatActivity {
         String nameString = mNameText.getText().toString().trim();
         String dateString = mDateTime.getText().toString().trim();
         String valueString =mTemperature.getText().toString().trim();
-        String eoiString= mEoi.getText().toString();
+        String eoiString= eoiValue;
 
 
         // Create database helper
@@ -558,6 +559,9 @@ public class FluActivity extends AppCompatActivity {
 
             case R.id.menu_reinitialize:
                 Textv.setText("");
+                Vdatetime.setText("");
+                Vprompt.setText("");
+                Veoi.setText("");
                 return true;
 
             case R.id.action_save:
@@ -574,14 +578,14 @@ public class FluActivity extends AppCompatActivity {
                 //Bundle extras = new Bundle();
                 shareIntent.putExtra("DT", "BT");
                 shareIntent.putExtra("profile", s);
-                shareIntent.putExtra("EOI", ".2");
+                shareIntent.putExtra("EOI",eoiValue );
                 shareIntent.putExtra("Time",currentDateTime );
                 shareIntent.putExtra("Algorithm", "1");
                 startActivity(shareIntent);
 
                 return true;
             case R.id.action_sms:
-                String messageToSend = "EOI:" + ratingOfEOI;
+                String messageToSend = "EOI:" +eoiValue;
                 String number = "9015157371";
 
                 SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null, null);
@@ -662,11 +666,20 @@ public class FluActivity extends AppCompatActivity {
 public void tempAlgorithm(String mealId)
 
 {
+
+    // initialize the screen
+    Vdatetime.setText("");
+    Textv.setText("");
+    Vprompt.setText("");
+    Veoi.setText("");
+
     // temperature processing begin
 
     float f = 0;
     try {
         f = Float.valueOf(mealId);
+        ratingOfEOI=(f-97)/10;
+        eoiValue=new DecimalFormat("##.##").format(ratingOfEOI);
         severityRating=100*((f-97)/10);
         eoiRating = String.valueOf(new DecimalFormat("##.##").format(severityRating));
 
@@ -679,67 +692,67 @@ public void tempAlgorithm(String mealId)
 
         if (f <= 97.5) {
             mealId += "°F\n";
-            ratingOfEOI = 0;
+            //ratingOfEOI = 0;
             //eoiRating = "0";
             prompt = "Normal Temperature";
             arrow1.setVisibility(View.VISIBLE);
         } else if (f <= 98.5) {
             mealId += "°F\n";
-            ratingOfEOI = 0.1;
+            //ratingOfEOI = 0.1;
             //eoiRating = "0.1";
             prompt = "Normal Temperature";
             arrow2.setVisibility(View.VISIBLE);
         } else if (f <= 99.5) {
             mealId += "°F\n";
             //eoiRating = "0.2";
-            ratingOfEOI = 0.2;
+            //ratingOfEOI = 0.2;
             prompt = "Normal Temperature";
             arrow3.setVisibility(View.VISIBLE);
         } else if (f <= 100.5) {
             mealId += "°F\n";
-            ratingOfEOI = 0.3;
+            //ratingOfEOI = 0.3;
             //eoiRating = "0.3";
             prompt = "Normal Temperature";
             arrow4.setVisibility(View.VISIBLE);
         } else if (f <= 101.5) {
             mealId += "°F\n";
-            ratingOfEOI = 0.4;
+            //ratingOfEOI = 0.4;
             //eoiRating = "0.4";
             prompt = "Low Fever,\nconsider consulting your doctor";
             arrow5.setVisibility(View.VISIBLE);
         } else if (f <= 102.5) {
             mealId += "°F\n";
-            ratingOfEOI = 0.5;
+            //ratingOfEOI = 0.5;
             //eoiRating = "0.5";
             prompt = "Medium Fever,\nConsult your doctor";
             arrow6.setVisibility(View.VISIBLE);
         } else if (f <= 103.5) {
             mealId += "°F\n";
-            ratingOfEOI = 0.6;
+            //ratingOfEOI = 0.6;
             //eoiRating = "0.6";
             prompt = "High Fever,\nConsult your doctor";
             arrow7.setVisibility(View.VISIBLE);
         } else if (f <= 104.5) {
             mealId += "°F\n";
-            ratingOfEOI = 0.7;
+            //ratingOfEOI = 0.7;
             //eoiRating = "0.7";
             prompt = "High Fever,\nConsult your doctor";
             arrow8.setVisibility(View.VISIBLE);
         } else if (f <= 105.5) {
             mealId += "°F\n";
-            ratingOfEOI = 0.8;
+            //ratingOfEOI = 0.8;
             //eoiRating = "0.8";
             prompt = "Very High Fever,\nConsult your doctor immediately";
             arrow9.setVisibility(View.VISIBLE);
         } else if (f <= 106.5) {
             mealId += "°F\n";
-            ratingOfEOI = 0.9;
+            //ratingOfEOI = 0.9;
             //eoiRating = "0.9";
             prompt = "Very High Fever,\nConsult your doctor immediately";
             arrow10.setVisibility(View.VISIBLE);
         } else if (f >= 106.5) {
             mealId += "°F\n";
-            ratingOfEOI = 1;
+            //ratingOfEOI = 1;
             //eoiRating = "1";
             prompt = "Extremely High Fever,\nConsult your doctor immediately";
             arrow11.setVisibility(View.VISIBLE);
@@ -754,10 +767,10 @@ public void tempAlgorithm(String mealId)
 
     // set the strings for main display
 
-    Vdatetime.setText(currentDateTime);
+    Vdatetime.setText(currentDateTime+"\n");
     Textv.append(mealId);
-    Vprompt.append(prompt);
-    Veoi.append(eoiRating);
+    Vprompt.append(prompt+"\n");
+    Veoi.append(eoiRating+"%\n");
 // end temperature processing
 
 }

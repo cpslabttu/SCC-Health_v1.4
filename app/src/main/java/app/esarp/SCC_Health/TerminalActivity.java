@@ -21,6 +21,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -38,6 +39,12 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import app.esarp.bluetooth.library.BluetoothSPP;
 import app.esarp.bluetooth.library.BluetoothSPP.BluetoothConnectionListener;
 import app.esarp.bluetooth.library.BluetoothSPP.OnDataReceivedListener;
@@ -49,7 +56,7 @@ public class TerminalActivity extends AppCompatActivity {
 
     TextView textStatus, textRead;
     EditText etMessage;
-
+    private ArrayList<String> arr_hex = new ArrayList<String>();
     Menu menu;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -71,7 +78,7 @@ public class TerminalActivity extends AppCompatActivity {
         etMessage = (EditText) findViewById(R.id.etMessage);
 
         bt = new BluetoothSPP(this);
-      //  BluetoothSPP bt = ((cBaseApplication) this.getApplicationContext()).bluetoothSPP.;
+        //  BluetoothSPP bt = ((cBaseApplication) this.getApplicationContext()).bluetoothSPP.;
         /*((cBaseApplication) this.getApplicationContext()).onCreate();
         BluetoothSPP bt =( (cBaseApplication)this.getApplicationContext()).bluetoothSPP;*/
 
@@ -88,13 +95,28 @@ public class TerminalActivity extends AppCompatActivity {
 
         bt.setOnDataReceivedListener(new OnDataReceivedListener() {
             public void onDataReceived(byte[] data, String message) {
+                short val = 0;
+                String readAscii = new String(data);
+                Log.i("Str@activity", readAscii);
+                arr_hex.add(message);
+                if (arr_hex.size() == 2) {
+                    String catHex = arr_hex.get(0) + arr_hex.get(1);
+                        /*int b0 = (arr_hex.get(0) & 255); // converts to unsigned
+                        int b1 = (arr_hex.get(1) & 255); // converts to unsigned
+                        int val = b0 << 8 | b1;*/
+                    Log.i("val1@final", catHex);
+                    val = (short) (Integer.parseInt(catHex, 16));
+                    Log.i("val2@final", String.valueOf(val));
+                    textRead.append(Integer.toString(val) + "\n");
+                    try {
+                        writeToCsv(Integer.toString(val));
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    arr_hex.clear();
+                }
 
-
-                textRead.append(message + "\n");
-               /* Intent i = new Intent(TerminalActivity.this, FluActivity.class);
-                String strName = message;
-                i.putExtra("STRING_I_NEED", strName);
-                startActivity(i);*/
             }
         });
 
@@ -221,6 +243,7 @@ public class TerminalActivity extends AppCompatActivity {
                 .build();
     }
 
+
     @Override
     public void onStop() {
         super.onStop();
@@ -229,5 +252,26 @@ public class TerminalActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    //write to csv file
+    public void writeToCsv(String x) throws IOException {
+        Calendar c = Calendar.getInstance();
+        File folder = new File(Environment.getExternalStorageDirectory() + "/project");
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdir();
+        }
+        if (success) {
+            // Do something on success
+            String csv = "/storage/sdcard0/project/btcommon.csv";
+            FileWriter file_writer = new FileWriter(csv, true);
+            ;
+            String s = c.get(Calendar.YEAR) + "," + (c.get(Calendar.MONTH) + 1) + "," + c.get(Calendar.DATE) + "," + c.get(Calendar.HOUR) + "," + c.get(Calendar.MINUTE) + "," + c.get(Calendar.SECOND) + "," + c.get(Calendar.MILLISECOND) + "," + x + "\n";
+
+            file_writer.append(s);
+            file_writer.close();
+
+        }
     }
 }

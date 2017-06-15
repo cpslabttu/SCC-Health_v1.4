@@ -350,8 +350,8 @@ public class BluetoothService   {
                 try {
 
                     int data = mmInStream.read();
-                    if(data == 0x0A) { 
-                    } else if(data == 0x0D) {
+                    //if(data == 0x0A) {} else
+                    if(data == 0xff) {
                         // save incoming values in a buffer
                         buffer = new byte[arr_byte.size()];
                         for(int i = 0 ; i < arr_byte.size() ; i++) {

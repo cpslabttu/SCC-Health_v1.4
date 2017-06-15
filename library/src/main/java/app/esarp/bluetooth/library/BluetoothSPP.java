@@ -63,6 +63,8 @@ public class BluetoothSPP extends Service {
     
     private BluetoothConnectionListener bcl;
     private int c = 0;
+    private int neg;
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
     
     public BluetoothSPP(Context context) {
         mContext = context;
@@ -176,6 +178,29 @@ public class BluetoothSPP extends Service {
                 break;
             case BluetoothState.MESSAGE_READ:
                 byte[] readBuf = (byte[]) msg.obj;
+                String readAscii = new String(readBuf);
+                Log.i("received@posthandler", readAscii);
+                //char[] hexChars = new char[readBuf.length * 2];
+                char[] hexChars = new char[2];
+                for ( int j = 0; j < readBuf.length; j++ ) {
+                    int v = readBuf[j] & 0xFF;
+                    hexChars[0] = hexArray[v >>> 4];
+                    hexChars[1] = hexArray[v & 0x0F];
+                       /* hexChars[j * 2] = hexArray[v >>> 4];
+                        hexChars[j * 2 + 1] = hexArray[v & 0x0F];*/
+                    String readMessage= new String(hexChars);
+                    Log.i("Str1@posthandler", readMessage);
+
+                    if (readBuf != null && readBuf.length > 0) {
+                        if (mDataReceivedListener != null)
+                            mDataReceivedListener.onDataReceived(readBuf, readMessage);
+                    }
+                    //hexChars = null;
+                    //break;
+                }
+                break;
+                /*ASCII Transmission Code
+                byte[] readBuf = (byte[]) msg.obj;
                 String readMessage = new String(readBuf);
 
                 Log.i("receivedStr@posthandler", readMessage);
@@ -183,7 +208,7 @@ public class BluetoothSPP extends Service {
                     if(mDataReceivedListener != null)
                         mDataReceivedListener.onDataReceived(readBuf, readMessage);
                 }
-                break;
+                break;*/
             case BluetoothState.MESSAGE_DEVICE_NAME:
                 mDeviceName = msg.getData().getString(BluetoothState.DEVICE_NAME);
                 mDeviceAddress = msg.getData().getString(BluetoothState.DEVICE_ADDRESS);
