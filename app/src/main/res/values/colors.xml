@@ -85,7 +85,7 @@
     <!-- Primary dark color for the editor -->
     <color name="editorColorPrimaryDark">#394450</color>
 
-    <color name="primary">#E43F3F</color>
+    <color name="primary">#00C853</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
 </resources>

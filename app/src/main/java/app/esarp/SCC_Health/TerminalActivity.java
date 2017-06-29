@@ -97,6 +97,7 @@ public class TerminalActivity extends AppCompatActivity {
             public void onDataReceived(byte[] data, String message) {
                 short val = 0;
                 String readAscii = new String(data);
+                //textRead.append(readAscii);
                 Log.i("Str@activity", readAscii);
                 arr_hex.add(message);
                 if (arr_hex.size() == 2) {
@@ -169,6 +170,10 @@ public class TerminalActivity extends AppCompatActivity {
         } else if (id == R.id.menu_disconnect) {
             if (bt.getServiceState() == BluetoothState.STATE_CONNECTED)
                 bt.disconnect();
+        }else if (id == R.id.menu_reinitialize) {
+            textRead.setText("");
+
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -264,9 +269,8 @@ public class TerminalActivity extends AppCompatActivity {
         }
         if (success) {
             // Do something on success
-            String csv = "/storage/sdcard0/project/btcommon.csv";
+            String csv = "/storage/emulated/0/project/btcommon.csv";
             FileWriter file_writer = new FileWriter(csv, true);
-            ;
             String s = c.get(Calendar.YEAR) + "," + (c.get(Calendar.MONTH) + 1) + "," + c.get(Calendar.DATE) + "," + c.get(Calendar.HOUR) + "," + c.get(Calendar.MINUTE) + "," + c.get(Calendar.SECOND) + "," + c.get(Calendar.MILLISECOND) + "," + x + "\n";
 
             file_writer.append(s);

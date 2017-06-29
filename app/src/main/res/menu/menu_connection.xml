@@ -4,6 +4,12 @@
     tools:context="app.esarp.btterminal.Main" >
 
     <item
+        android:id="@+id/menu_reinitialize"
+        android:background="#FFFF00"
+        android:title="Clear"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/menu_android_connect"
         android:orderInCategory="100"
         android:visible="false"
@@ -16,7 +22,7 @@
     <item
         android:id="@+id/action_save"
         android:title="@string/action_save"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_share"

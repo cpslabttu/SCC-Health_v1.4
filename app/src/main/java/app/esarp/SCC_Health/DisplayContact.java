@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
+import java.util.Locale;
 
 
 public class DisplayContact extends AppCompatActivity {
@@ -207,31 +212,54 @@ public class DisplayContact extends AppCompatActivity {
 
 
     public void run(View view) {
-        Bundle extras = getIntent().getExtras();
-        if(extras !=null) {
-            int Value = extras.getInt("id");
-            if(Value>0){
-                if(mydb.updateContact(id_To_Update,name.getText().toString(),
-                        phone.getText().toString(), email.getText().toString(),
-                        street.getText().toString(), place.getText().toString())){
-                    Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses = null;
+        boolean error=false;
+        String stAddress=street.getText().toString();
+        try {
+            addresses = geocoder.getFromLocationName(stAddress, 1);
+        } catch (IOException e) {
+            error=true;
+        }
+
+        // check information validity
+        if((name.getText().toString().trim().length() == 0)||(phone.getText().toString().trim().length() == 0)||(street.getText().toString().trim().length() == 0))
+        {
+            Toast.makeText(getApplicationContext(), "Field Can't be empty", Toast.LENGTH_SHORT).show();
+        }
+
+        else if(error){
+            Toast.makeText(getApplicationContext(), "Street address not correct", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
+
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                int Value = extras.getInt("id");
+                if (Value > 0) {
+                    if (mydb.updateContact(id_To_Update, name.getText().toString(),
+                            phone.getText().toString(), email.getText().toString(),
+                            street.getText().toString(), place.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    if (mydb.insertContact(name.getText().toString(), phone.getText().toString(),
+                            email.getText().toString(), street.getText().toString(),
+                            place.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "done",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "not done",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
-                } else{
-                    Toast.makeText(getApplicationContext(), "not Updated", Toast.LENGTH_SHORT).show();
                 }
-            } else{
-                if(mydb.insertContact(name.getText().toString(), phone.getText().toString(),
-                        email.getText().toString(), street.getText().toString(),
-                        place.getText().toString())){
-                    Toast.makeText(getApplicationContext(), "done",
-                            Toast.LENGTH_SHORT).show();
-                } else{
-                    Toast.makeText(getApplicationContext(), "not done",
-                            Toast.LENGTH_SHORT).show();
-                }
-                Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
-                startActivity(intent);
             }
         }
     }

@@ -1,19 +1,24 @@
 package app.esarp.SCC_Health;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 
-public class BluetoothActivity extends Activity implements OnClickListener {
+public class BluetoothActivity extends AppCompatActivity implements OnClickListener {
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bluetooth);
+
+        // show action bar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
 
         /*Button btnSimple = (Button) findViewById(R.id.btnSimple);
         btnSimple.setOnClickListener(this);
@@ -22,13 +27,16 @@ public class BluetoothActivity extends Activity implements OnClickListener {
         btnListener.setOnClickListener(this);
 
         Button btnAutoConnect = (Button) findViewById(R.id.btnAutoConnect);
-        btnAutoConnect.setOnClickListener(this);
+        btnAutoConnect.setOnClickListener(this);*/
 
         Button btnDeviceList = (Button) findViewById(R.id.btnDeviceList);
-        btnDeviceList.setOnClickListener(this);*/
+        btnDeviceList.setOnClickListener(this);
 
         Button btnTerminal = (Button) findViewById(R.id.btnTerminal);
         btnTerminal.setOnClickListener(this);
+
+        Button btnPair = (Button) findViewById(R.id.btnPair);
+        btnPair.setOnClickListener(this);
 
     }
 
@@ -47,13 +55,17 @@ public class BluetoothActivity extends Activity implements OnClickListener {
             case R.id.btnAutoConnect:
                 intent = new Intent(getApplicationContext(), AutoConnectActivity.class);
                 startActivity(intent);
-                break;
+                break;*/
             case R.id.btnDeviceList:
                 intent = new Intent(getApplicationContext(), DeviceListActivity.class);
                 startActivity(intent);
-                break;*/
+                break;
             case R.id.btnTerminal:
                 intent = new Intent(getApplicationContext(), TerminalActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnPair:
+                intent = new Intent(getApplicationContext(), BluetoothPair.class);
                 startActivity(intent);
                 break;
         }

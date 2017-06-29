@@ -3,6 +3,8 @@ package app.esarp.SCC_Health;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +15,7 @@ import app.esarp.bluetooth.library.BluetoothSPP.OnDataReceivedListener;
 import app.esarp.bluetooth.library.BluetoothState;
 import app.esarp.bluetooth.library.DeviceList;
 
-public class DeviceListActivity extends Activity {
+public class DeviceListActivity extends AppCompatActivity {
     BluetoothSPP bt;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,9 @@ public class DeviceListActivity extends Activity {
         setContentView(R.layout.activity_devicelist);
 
         bt = new BluetoothSPP(this);
+        // show action bar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
 
         if(!bt.isBluetoothAvailable()) {
             Toast.makeText(getApplicationContext()
@@ -91,11 +96,11 @@ public class DeviceListActivity extends Activity {
     }
 
     public void setup() {
-        Button btnSend = (Button)findViewById(R.id.btnSend);
+        /*Button btnSend = (Button)findViewById(R.id.btnSend);
         btnSend.setOnClickListener(new OnClickListener(){
             public void onClick(View v){
                 bt.send("Text", true);
             }
-        });
+        });*/
     }
 }

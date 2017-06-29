@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -342,19 +343,32 @@ public class BluetoothService   {
         public void run() {
             byte[] buffer;
             ArrayList<Integer> arr_byte = new ArrayList<Integer>();
-
-
-
+            ArrayList<Integer> arr_termination = new ArrayList<Integer>(Collections.nCopies(2, 255));
+            ArrayList<Integer> arr_transfer = new ArrayList<Integer>();
+            boolean doTermination = false;
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
 
                     int data = mmInStream.read();
+                    Log.i("data", String.valueOf(data));
+                    /* arr_transfer.add(data);
+                    if (arr_transfer.size() == 2) {
+                        if (arr_transfer.equals(arr_termination)) {
+                            doTermination = true;
+                        } else {
+                            arr_byte.add(arr_transfer.get(0));
+                            arr_byte.add(arr_transfer.get(1));
+                        }
+                        arr_transfer.clear();
+                    } else {
+                        //arr_transfer.add(data);
+                    }*/
                     //if(data == 0x0A) {} else
-                    if(data == 0xff) {
+                    if (data==0xff) {
                         // save incoming values in a buffer
                         buffer = new byte[arr_byte.size()];
-                        for(int i = 0 ; i < arr_byte.size() ; i++) {
+                        for (int i = 0; i < arr_byte.size(); i++) {
                             buffer[i] = arr_byte.get(i).byteValue();
                         }
                         // Send the obtained bytes to the UI Activity
@@ -362,12 +376,6 @@ public class BluetoothService   {
                                 , buffer.length, -1, buffer).sendToTarget();
                         arr_byte = new ArrayList<Integer>();
                     }
-                    // read int values
-
-
-
-
-
 
                     else {
                         arr_byte.add(data);

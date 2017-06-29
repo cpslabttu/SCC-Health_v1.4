@@ -20,7 +20,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:text="Instruction:\n\n1. Put on the wearable Temperature Sensor\n2. Make sure the scanner is working\n3. Click on Connect Scanner\n4. Click on 'Start Test'\n\n" />
+                android:text="@string/inst_flu" />
 
             <Button
                 android:id="@+id/dismiss"

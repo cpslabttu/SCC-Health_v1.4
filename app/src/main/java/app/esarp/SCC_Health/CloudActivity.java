@@ -198,8 +198,12 @@ public class CloudActivity extends Activity implements View.OnClickListener {
         etAlg.setText(actAlg);
 
         //getGridCode(address);
+
         // set grid code
-        getGridCode(ptAddress);
+        if(ptAddress.matches("")){
+            Toast.makeText(getApplicationContext(), "No address in database ", Toast.LENGTH_LONG).show();
+        } else{
+        getGridCode(ptAddress);}
 
 
         // check if you are connected or not
@@ -441,15 +445,16 @@ public class CloudActivity extends Activity implements View.OnClickListener {
 
     public void getSubject() throws SQLException{
 
-        mydb = new ProfileDbHelper(this);
-        SQLiteDatabase ourDatabase = mydb.getReadableDatabase();
-        String[] columns = new String[]{CONTACTS_COLUMN_ID, CONTACTS_COLUMN_NAME, CONTACTS_COLUMN_EMAIL, CONTACTS_COLUMN_STREET, CONTACTS_COLUMN_CITY, CONTACTS_COLUMN_PHONE};
-        Cursor c = ourDatabase.query(CONTACTS_TABLE_NAME, columns,null , null, null, null, null);
-        ptAddress = "";
-        ptID="";
-        int iRow= c.getColumnIndex(CONTACTS_COLUMN_PHONE);
-        //int iName= c.getColumnIndex(CONTACTS_COLUMN_NAME);
-        int iAddress= c.getColumnIndex(CONTACTS_COLUMN_STREET);
+        try {
+            mydb = new ProfileDbHelper(this);
+            SQLiteDatabase ourDatabase = mydb.getReadableDatabase();
+            String[] columns = new String[]{CONTACTS_COLUMN_ID, CONTACTS_COLUMN_NAME, CONTACTS_COLUMN_EMAIL, CONTACTS_COLUMN_STREET, CONTACTS_COLUMN_CITY, CONTACTS_COLUMN_PHONE};
+            Cursor c = ourDatabase.query(CONTACTS_TABLE_NAME, columns,null , null, null, null, null);
+            ptAddress = "";
+            ptID="";
+            int iRow= c.getColumnIndex(CONTACTS_COLUMN_PHONE);
+            //int iName= c.getColumnIndex(CONTACTS_COLUMN_NAME);
+            int iAddress= c.getColumnIndex(CONTACTS_COLUMN_STREET);
         /*for (c.moveToFirst(); !c.isAfterLast();c.moveToNext()){
             result = result + c.getString(iAddress);
             ptID = ptID + c.getString(iName);
@@ -458,18 +463,24 @@ public class CloudActivity extends Activity implements View.OnClickListener {
         {c.moveToFirst();
             ptID=c.getString(1);}
          etName.setText(ptID);*/
-        c.moveToFirst();
-        do {
-            if ((c.getString(1)).equals(activeProfile)) {
-                ptID = ptID+c.getString(iRow);
-                ptAddress = ptAddress + c.getString(iAddress);
-            }
+            c.moveToFirst();
+            do {
+                if ((c.getString(1)).equals(activeProfile)) {
+                    ptID = ptID+c.getString(iRow);
+                    ptAddress = ptAddress + c.getString(iAddress);
+                }
 
-        } while (c.moveToNext());
+            } while (c.moveToNext());
+            etName.setText(ptID);
+            //etCountry.setText(result);
+            addressET.setText(ptAddress);
+            //return result;
+        }
 
-        etName.setText(ptID);
-        //etCountry.setText(result);
-        addressET.setText(ptAddress);
-        //return result;
+        catch(Exception e){
+            etName.setText("");
+            //etCountry.setText(result);
+            addressET.setText("");
+        }
     }
 }

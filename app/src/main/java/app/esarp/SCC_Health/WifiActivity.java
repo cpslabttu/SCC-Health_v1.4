@@ -51,7 +51,7 @@ public class WifiActivity extends Activity implements View.OnClickListener {
 
     // String url="https://10.100.94.221.000webhostapp.com/insertjsondb.php";
 
-    String url="https://sharminafrozsheba.000webhostapp.com/insertjsondb.php";
+    String url="http://sscmemphis.com/insertjsondb.php";
 
     public static String POST(String url, Person person)
     {

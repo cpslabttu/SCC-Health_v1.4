@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class FluAlgorithm extends AppCompatActivity {
     Activity context;
     private TextView txtview;
     private String dexResult;
-    private int selection;
+    private int selection=1;
     Button b1;
     ProgressDialog pd;
     DexClassLoader dexClassLoader;
@@ -52,19 +53,23 @@ public class FluAlgorithm extends AppCompatActivity {
         myActionBar.show();
 
 
-        /*RadioGroup radioGroup = (RadioGroup) findViewById(R.id.rgMethod);
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.rgMethod);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
-                if(checkedId==R.id.expAlg){
-                    //selection=2;
+                if(checkedId==R.id.linAlg){
+                    selection=1;
+                }
+                else if(checkedId==R.id.expAlg){
+                    selection=2;
                 }
             }
-        });*/
-        selection=2;
+        });
+
+        //selection=2;
         //tv1=(TextView) findViewById(R.id.textDownload);
         txtview=(TextView)findViewById(R.id.textview);
         // prepare for dex class loading
@@ -78,14 +83,15 @@ public class FluAlgorithm extends AppCompatActivity {
                 throw new RuntimeException(e);
             }
 
-            break;
+                break;
 
-            case 2: try {
-                dexClassLoader = CustomizedDexClassLoader.load("expflu.dex");
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e);
-            }
-
+            case 2:
+                try {
+                    dexClassLoader = CustomizedDexClassLoader.load("expflu.dex");
+                } catch (RuntimeException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
         }
 
         // download task
@@ -154,9 +160,10 @@ public class FluAlgorithm extends AppCompatActivity {
         switch(selection) {
             case 1:
                 bt.execute("https://github.com/SCChealth/MEMPHIS/raw/master/libflu.dex");
+                break;
             case 2:
                 bt.execute("https://github.com/SCChealth/MEMPHIS/raw/master/expflu.dex");
-
+                break;
 
         }
     }

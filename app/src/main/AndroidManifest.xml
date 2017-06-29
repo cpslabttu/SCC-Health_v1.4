@@ -18,8 +18,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".cBaseApplication"
@@ -29,7 +30,8 @@
         android:theme="@style/Theme.AppCompat">
         <activity
             android:name=".BluetoothActivity"
-            android:label="@string/category_bluetooth" />
+            android:label="@string/category_bluetooth"
+            android:parentActivityName=".GeneralSettingsActivity" />
         <activity android:name=".SimpleActivity" />
         <activity
             android:name=".ListenerActivity"
@@ -39,7 +41,8 @@
             android:label="@string/title_activity_auto_connect" />
         <activity
             android:name=".DeviceListActivity"
-            android:label="@string/title_activity_device_list" />
+            android:label="@string/title_activity_device_list"
+            android:parentActivityName=".BluetoothActivity" />
         <activity
             android:name=".TerminalActivity"
             android:label="@string/title_activity_terminal" />
@@ -185,7 +188,8 @@
         <activity android:name=".WifiActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".CloudActivity" />
-        <activity android:name=".FluAlgorithm"
+        <activity
+            android:name=".FluAlgorithm"
             android:label="Test Methods"
             android:parentActivityName=".FluActivity">
 
@@ -194,7 +198,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.esarp.SCC_Health.FluActivity" />
         </activity>
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TestActivity" />
+        <activity
+            android:name=".BluetoothPair"
+            android:label="Bluetooth"
+            android:parentActivityName=".BluetoothActivity"/>
     </application>
 
 </manifest>

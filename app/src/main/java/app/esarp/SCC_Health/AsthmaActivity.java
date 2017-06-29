@@ -49,7 +49,7 @@ public class AsthmaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asthma);
 
-// show action bar
+        // show action bar
         ActionBar myActionBar = getSupportActionBar();
         myActionBar.show();
         TextView mNameText = (TextView) findViewById(R.id.display_name);

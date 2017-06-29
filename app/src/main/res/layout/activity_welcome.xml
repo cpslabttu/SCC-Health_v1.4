@@ -46,10 +46,11 @@
         <Button
             android:id="@+id/explore"
             style="@style/CategoryStyle"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
+            android:layout_marginLeft="4dp"
             android:layout_below="@+id/helathpic"
             android:layout_centerVertical="true"
-            android:background="#01ff78"
+            android:background="#01579B"
             android:text="CONTINUE"
             android:textAlignment="center"
             android:textSize="30dp" />

@@ -9,20 +9,19 @@ import android.util.Log;
 import android.webkit.WebView;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_CITY;
-import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_EMAIL;
-import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_ID;
-import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_NAME;
-import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_PHONE;
-import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_COLUMN_STREET;
-import static app.esarp.SCC_Health.ProfileDbHelper.CONTACTS_TABLE_NAME;
+import static app.esarp.SCC_Health.TempContract.TempEntry.COLUMN_DATE_TIME;
+import static app.esarp.SCC_Health.TempContract.TempEntry.COLUMN_EOI_RATING;
+import static app.esarp.SCC_Health.TempContract.TempEntry.COLUMN_PATIENT_NAME;
+import static app.esarp.SCC_Health.TempContract.TempEntry.COLUMN_TEMP_VALUE;
+import static app.esarp.SCC_Health.TempContract.TempEntry._ID;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class ShowWebChart extends Activity {
-    private ProfileDbHelper mydb;
+    private TempDbHelper mydb;
     WebView webView;
     int num1, num2, num3, num4, num5, num6;
     LineGraphSeries<DataPoint>series;
@@ -37,21 +36,21 @@ public class ShowWebChart extends Activity {
         graph = (GraphView) findViewById(R.id.graph);
 
 
-        mydb = new ProfileDbHelper(this);
+        mydb = new TempDbHelper(this);
         ourDatabase = mydb.getReadableDatabase();
 
         //graph.addSeries(series);
 
 
 
-        String[] columns = new String[]{CONTACTS_COLUMN_ID, CONTACTS_COLUMN_NAME, CONTACTS_COLUMN_EMAIL, CONTACTS_COLUMN_STREET, CONTACTS_COLUMN_CITY, CONTACTS_COLUMN_PHONE};
-        Cursor c = ourDatabase.query(CONTACTS_TABLE_NAME, columns, null, null, null, null, null);
+        String[] columns = new String[]{_ID, COLUMN_PATIENT_NAME, COLUMN_DATE_TIME, COLUMN_TEMP_VALUE, COLUMN_EOI_RATING};
+        Cursor c = ourDatabase.query(TempContract.TempEntry.TABLE_NAME, columns, null, null, null, null, null);
         DataPoint[] dp = new DataPoint[c.getCount()];
-        int iRow = c.getColumnIndex(CONTACTS_COLUMN_PHONE);
+        int iRow = c.getColumnIndex(COLUMN_TEMP_VALUE);
 
         for (int i = 0;i<c.getCount();i++) {
             c.moveToNext();
-            dp[i]=new DataPoint(c.getInt(2),c.getInt(5));
+            dp[i]=new DataPoint(c.getInt(2),c.getInt(3));
 
             Log.i("ValueFetched",""+dp[i]);
 
@@ -59,7 +58,7 @@ public class ShowWebChart extends Activity {
 
         series = new LineGraphSeries <>(dp);
 // set manual X bounds
-        graph.getViewport().setYAxisBoundsManual(true);
+        /*graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(-150);
         graph.getViewport().setMaxY(150);
 
@@ -70,11 +69,15 @@ public class ShowWebChart extends Activity {
         // enable scaling and scrolling
         graph.getViewport().setScalable(true);
         graph.getViewport().setScalableY(true);
-
+*/
 
         graph.addSeries(series);
-        series.setDrawDataPoints(true);
 
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(ShowWebChart.this));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+
+        series.setDrawDataPoints(true);
+        graph.getGridLabelRenderer().setHumanRounding(false);
 
     }
         /*Intent intent = getIntent();

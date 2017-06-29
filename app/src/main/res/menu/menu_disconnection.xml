@@ -4,20 +4,16 @@
     tools:context="app.esarp.btterminal.Main" >
 
 
-
-    <item
-        android:id="@+id/menu_disconnect"
-        android:orderInCategory="100"
-        android:background="#800000"
-        android:title="Disconnect" />
-
-
-
     <item
         android:id="@+id/menu_reinitialize"
-        android:orderInCategory="100"
         android:background="#FFFF00"
-        android:title="Re-Initialize" />
+        android:title="Clear"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_disconnect"
+        android:background="#800000"
+        android:title="Disconnect"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_save"
         android:title="@string/action_save"
@@ -36,11 +32,11 @@
     <item
         android:id="@+id/action_algorithm"
         android:title="Method"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_history"
         android:title="History"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
 
 

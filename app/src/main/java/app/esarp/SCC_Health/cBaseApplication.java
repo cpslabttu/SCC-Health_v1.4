@@ -10,6 +10,7 @@ import app.esarp.bluetooth.library.BluetoothSPP;
 
 public class cBaseApplication extends Application {
     public BluetoothSPP bluetoothSPP;
+    //public static volatile int fileSeq=1;
 
     @Override
     public void onCreate()

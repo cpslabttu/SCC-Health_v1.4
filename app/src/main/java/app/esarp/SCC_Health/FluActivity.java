@@ -1,6 +1,7 @@
 package app.esarp.SCC_Health;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
@@ -24,10 +26,15 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import app.esarp.bluetooth.library.BluetoothSPP;
@@ -42,26 +49,31 @@ public class FluActivity extends AppCompatActivity {
     Float severityRating;
     String s;
     Intent mIntent;
+    private int fileSeq=1;
     private TextView connectionRead;
     private TextView mNameText;
     private TextView mDateTime;
     private TextView mTemperature;
     private TextView mEoi;
-    private Button connectScanner, test;
-    private boolean pdReceived = false;
-    private boolean hrReceived = false;
-    private boolean timeKeyReceived = false;
-    private boolean poReceived=false;
-    private int sensor=1;
+    private Button connectScanner, test, dispResult;
+    private boolean diseaseKey = false;
+    private boolean sensorKey = false;
+    private boolean timeKey = false;
+    private boolean poReceived = false;
+    private int sensor = 1;
     private String tempReceived, eoiValue;
-    private String currentDateTime="";
-    private TextView Vdatetime, gradient, Textv, Veoi,Vprompt;
+    private String currentDateTime = "";
+    private TextView Vdatetime, gradient, Textv, Veoi, Vprompt;
     //String mealId = " ";
-    private String eoiRating="0";
+    private String eoiRating = "0";
     private String prompt = " ";
+    private String sEOI="";
+    private String sTemperature="";
     private Menu menu;
     private ImageView arrow1, arrow2, arrow3, arrow4, arrow5, arrow6, arrow7, arrow8, arrow9, arrow10, arrow11;
     private LinearLayout mDisplay;
+    private ArrayList<String> arr_hex = new ArrayList<String>();
+    private ArrayList<Short> arr_received = new ArrayList<Short>();
 
     //temp db finish
 
@@ -92,29 +104,30 @@ public class FluActivity extends AppCompatActivity {
         mDateTime = (TextView) findViewById(R.id.datetime);
         mTemperature = (TextView) findViewById(R.id.display_bdt);
         mEoi = (TextView) findViewById(R.id.display_eoi);
-        test=(Button) findViewById(R.id.test);
-        connectScanner=(Button) findViewById(R.id.cScanner);
-        Vdatetime=(TextView) findViewById(R.id.datetime);
+        test = (Button) findViewById(R.id.test);
+        dispResult = (Button) findViewById(R.id.displayResult);
+        connectScanner = (Button) findViewById(R.id.cScanner);
+        Vdatetime = (TextView) findViewById(R.id.datetime);
         Textv = (TextView) findViewById(R.id.display_bdt);
         Veoi = (TextView) findViewById(R.id.display_eoi);
-        Vprompt= (TextView) findViewById(R.id.display_prompt);
+        Vprompt = (TextView) findViewById(R.id.display_prompt);
         connectionRead = (TextView) findViewById(R.id.textStatus);
-        mDisplay=(LinearLayout) findViewById(R.id.maindisplay);
+        mDisplay = (LinearLayout) findViewById(R.id.maindisplay);
         // Set active profile
-        s="";
+        s = "";
 
         //reading text from file
         try {
-            FileInputStream fileIn=openFileInput("mytextfile.txt");
-            InputStreamReader InputRead= new InputStreamReader(fileIn);
-            char[] inputBuffer= new char[READ_BLOCK_SIZE];
+            FileInputStream fileIn = openFileInput("mytextfile.txt");
+            InputStreamReader InputRead = new InputStreamReader(fileIn);
+            char[] inputBuffer = new char[READ_BLOCK_SIZE];
             /*String s="";*/
             int charRead;
 
-            while ((charRead=InputRead.read(inputBuffer))>0) {
+            while ((charRead = InputRead.read(inputBuffer)) > 0) {
                 // char to string conversion
-                String readstring=String.copyValueOf(inputBuffer,0,charRead);
-                s +=readstring;
+                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
+                s += readstring;
             }
             InputRead.close();
             /*mNameText.setText(s);*/
@@ -147,37 +160,18 @@ public class FluActivity extends AppCompatActivity {
         });*/
 
 
-   // color line gradient
+        // color line gradient
 
 
         gradient = (TextView) findViewById(R.id.active_gradient);
 
 
-        int[] colors = {Color.parseColor("#008000"),Color.parseColor("#FFFF00"),Color.parseColor("#FFA500"),Color.parseColor("#ff0000"),Color.parseColor("#800000") };
+        int[] colors = {Color.parseColor("#008000"), Color.parseColor("#FFFF00"), Color.parseColor("#FFA500"), Color.parseColor("#ff0000"), Color.parseColor("#800000")};
         GradientDrawable gd = new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT, colors);
         gradient.setBackground(gd);
 
-
-
-
-// Check History
-
-        /*// Find the View that shows the history button
-        Button history = (Button) findViewById(R.id.history);
-
-        // Set a click listener on that View
-        history.setOnClickListener(new View.OnClickListener() {
-            // The code in this method will be executed when the numbers category is clicked on.
-            @Override
-            public void onClick(View view) {
-                // Create a new intent to open the {@link SleepApnea}
-                Intent temperatureHistoryIntent = new Intent(FluActivity.this, Temp_HistoryActivity.class);
-
-                // Start the new activity
-                startActivity(temperatureHistoryIntent);
-            }
-        });*/
+        // pop up window for info and instruction
 
         final TextView btnOpenPopup = (TextView) findViewById(R.id.info);
         btnOpenPopup.setOnClickListener(new Button.OnClickListener() {
@@ -237,6 +231,7 @@ public class FluActivity extends AppCompatActivity {
             }
         });
 
+        // connect scanner by bluetooth
 
         connectScanner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,17 +248,17 @@ public class FluActivity extends AppCompatActivity {
 
         //EOI color ranking
         //LinearLayout mainDisplay=(LinearLayout) findViewById(R.id.maindisplay);
-        arrow1=(ImageView) findViewById(R.id.arrow1);
-        arrow2=(ImageView) findViewById(R.id.arrow2);
-        arrow3=(ImageView) findViewById(R.id.arrow3);
-        arrow4=(ImageView) findViewById(R.id.arrow4);
-        arrow5=(ImageView) findViewById(R.id.arrow5);
-        arrow6=(ImageView) findViewById(R.id.arrow6);
-        arrow7=(ImageView) findViewById(R.id.arrow7);
-        arrow8=(ImageView) findViewById(R.id.arrow8);
-        arrow9=(ImageView) findViewById(R.id.arrow9);
-        arrow10=(ImageView) findViewById(R.id.arrow10);
-        arrow11=(ImageView) findViewById(R.id.arrow11);
+        arrow1 = (ImageView) findViewById(R.id.arrow1);
+        arrow2 = (ImageView) findViewById(R.id.arrow2);
+        arrow3 = (ImageView) findViewById(R.id.arrow3);
+        arrow4 = (ImageView) findViewById(R.id.arrow4);
+        arrow5 = (ImageView) findViewById(R.id.arrow5);
+        arrow6 = (ImageView) findViewById(R.id.arrow6);
+        arrow7 = (ImageView) findViewById(R.id.arrow7);
+        arrow8 = (ImageView) findViewById(R.id.arrow8);
+        arrow9 = (ImageView) findViewById(R.id.arrow9);
+        arrow10 = (ImageView) findViewById(R.id.arrow10);
+        arrow11 = (ImageView) findViewById(R.id.arrow11);
 
         //mainDisplay.setVisibility(View.INVISIBLE);
 
@@ -272,49 +267,67 @@ public class FluActivity extends AppCompatActivity {
 
         bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
             public void onDataReceived(byte[] data, String message) {
-
+                short val = 0;
+                String readAscii = new String(data);
+                Log.i("Str@activity", readAscii);
                 //textReceived.append(message + "\n");
-                if (timeKeyReceived == true) {
+                if (timeKey == true) {
                     //receive data
-                    // get date and time
 
-                    currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
-                    //Textv.append(message + "\n");
-                    tempReceived = message;
-                    Log.i("tempReceived", tempReceived);
-                    // test
+                    arr_hex.add(message);
+                    Log.i("size_arr_hex",""+arr_hex.size());
 
-                    mDisplay.setVisibility(View.VISIBLE);
-                    arrow1.setVisibility(View.INVISIBLE);
-                    arrow2.setVisibility(View.INVISIBLE);
-                    arrow3.setVisibility(View.INVISIBLE);
-                    arrow4.setVisibility(View.INVISIBLE);
-                    arrow5.setVisibility(View.INVISIBLE);
-                    arrow6.setVisibility(View.INVISIBLE);
-                    arrow7.setVisibility(View.INVISIBLE);
-                    arrow8.setVisibility(View.INVISIBLE);
-                    arrow9.setVisibility(View.INVISIBLE);
-                    arrow10.setVisibility(View.INVISIBLE);
-                    arrow11.setVisibility(View.INVISIBLE);
-                    tempAlgorithm(tempReceived);
+
+                    if (arr_hex.size() == 2) {
+                        String catHex = arr_hex.get(0) + arr_hex.get(1);
+                        /*int b0 = (arr_hex.get(0) & 255); // converts to unsigned
+                        int b1 = (arr_hex.get(1) & 255); // converts to unsigned
+                        int val = b0 << 8 | b1;*/
+                        Log.i("val1@final", catHex);
+                        val = (short) (Integer.parseInt(catHex, 16));
+                        Log.i("val2@final", String.valueOf(val));
+                        arr_received.add(val);
+                        //Textv.append(Integer.toString(val) + "\n");
+                        try {
+                            writeToCsv(Integer.toString(val));
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        arr_hex.clear();
+                        Log.i("sizearr_received", "" + arr_received.size());
+                    }
 
 
                 } else {
-                    if (message.equals("BT")) {
+                    if (readAscii.equals("BT")) {
 
                         bt.send("TP", true);
-                        pdReceived = true;
+                        diseaseKey = true;
 
                     } else {
-                        if (message.equals("TP") && pdReceived) {
-                            bt.send("1", true);
-                            hrReceived = true;
+                        if (readAscii.equals("TP") && diseaseKey) {
+                            bt.send("5", true);
+                            sensorKey = true;
                         } else {
-                            if (message.equals("1") && pdReceived && hrReceived) {
+                            if (readAscii.equals("5") && diseaseKey && sensorKey) {
                                 bt.send("OK", true);
-                                timeKeyReceived = true;
+                                timeKey = true;
                             } else {
+                                mDisplay.setVisibility(View.VISIBLE);
+                                arrow1.setVisibility(View.INVISIBLE);
+                                arrow2.setVisibility(View.INVISIBLE);
+                                arrow3.setVisibility(View.INVISIBLE);
+                                arrow4.setVisibility(View.INVISIBLE);
+                                arrow5.setVisibility(View.INVISIBLE);
+                                arrow6.setVisibility(View.INVISIBLE);
+                                arrow7.setVisibility(View.INVISIBLE);
+                                arrow8.setVisibility(View.INVISIBLE);
+                                arrow9.setVisibility(View.INVISIBLE);
+                                arrow10.setVisibility(View.INVISIBLE);
+                                arrow11.setVisibility(View.INVISIBLE);
                                 Textv.append("Failed Handshake");
+
                             }
                         }
                     }
@@ -340,76 +353,18 @@ public class FluActivity extends AppCompatActivity {
                 getMenuInflater().inflate(R.menu.menu_disconnection, menu);
             }
         });
-
-/*
-        if (timeKeyReceived) {
-            currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
-            mDisplay.setVisibility(View.VISIBLE);
-            arrow1.setVisibility(View.INVISIBLE);
-            arrow2.setVisibility(View.INVISIBLE);
-            arrow3.setVisibility(View.INVISIBLE);
-            arrow4.setVisibility(View.INVISIBLE);
-            arrow5.setVisibility(View.INVISIBLE);
-            arrow6.setVisibility(View.INVISIBLE);
-            arrow7.setVisibility(View.INVISIBLE);
-            arrow8.setVisibility(View.INVISIBLE);
-            arrow9.setVisibility(View.INVISIBLE);
-            arrow10.setVisibility(View.INVISIBLE);
-            arrow11.setVisibility(View.INVISIBLE);
-            tempAlgorithm(tempReceived);
-        }*/
-
     }
 
-        /**
-         * Setup the dropdown spinner that allows the user to select the gender of the pet.
-         */
-    /*private void setupSpinner() {
-        // Create adapter for spinner. The list options are from the String array it will use
-        // the spinner will use the default layout
-        ArrayAdapter genderSpinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_gender_options, android.R.layout.simple_spinner_item);
-
-        // Specify dropdown layout style - simple list view with 1 item per line
-        genderSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
-        // Apply the adapter to the spinner
-        mGenderSpinner.setAdapter(genderSpinnerAdapter);
-
-        // Set the integer mSelected to the constant values
-        mGenderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String) parent.getItemAtPosition(position);
-                if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals(getString(R.string.gender_male))) {
-                        mGender = PetEntry.GENDER_MALE;
-                    } else if (selection.equals(getString(R.string.gender_female))) {
-                        mGender = PetEntry.GENDER_FEMALE;
-                    } else {
-                        mGender = PetEntry.GENDER_UNKNOWN;
-                    }
-                }
-            }
-
-            // Because AdapterView is an abstract class, onNothingSelected must be defined
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                mGender = PetEntry.GENDER_UNKNOWN;
-            }
-        });
-    }*/
-
     /**
-     * Get user input from editor and save new  into database.
+     * save new entry  into database.
      */
     private void insertTemp() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameText.getText().toString().trim();
         String dateString = mDateTime.getText().toString().trim();
-        String valueString =mTemperature.getText().toString().trim();
-        String eoiString= eoiValue;
+        String valueString = mTemperature.getText().toString().trim();
+        String eoiString = eoiValue;
 
 
         // Create database helper
@@ -423,8 +378,8 @@ public class FluActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put(TempContract.TempEntry.COLUMN_PATIENT_NAME, nameString);
         values.put(TempContract.TempEntry.COLUMN_DATE_TIME, dateString);
-        values.put(TempContract.TempEntry.COLUMN_TEMP_VALUE, valueString);
-        values.put(TempContract.TempEntry.COLUMN_EOI_RATING, eoiString);
+        values.put(TempContract.TempEntry.COLUMN_TEMP_VALUE, sTemperature);
+        values.put(TempContract.TempEntry.COLUMN_EOI_RATING, sEOI);
 
         // Insert a new row  in the database, returning the ID of that new row.
         long newRowId = db.insert(TempContract.TempEntry.TABLE_NAME, null, values);
@@ -446,82 +401,7 @@ public class FluActivity extends AppCompatActivity {
     }
 
 
-   /* public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_editor.xml file.
-        // This adds menu items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_editor, menu);
-        return true;
-    }
-
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // User clicked on a menu option in the app bar overflow menu
-        switch (item.getItemId()) {
-            // Respond to a click on the "Save" menu option
-            case R.id.action_save:
-                // Save record to database
-                insertTemp();
-                // Exit activity
-                //finish();
-                return true;
-            // Respond to a click on the "Share to SCC" menu option
-            case R.id.action_share:
-                // Go to cloud activity
-
-                Intent shareIntent = new Intent(FluActivity.this, CloudActivity.class);
-                //Bundle extras = new Bundle();
-                shareIntent.putExtra("DT", "BT");
-                shareIntent.putExtra("profile", s);
-                shareIntent.putExtra("EOI", s);
-                shareIntent.putExtra("Time", s);
-                shareIntent.putExtra("Algorithm", s);
-                startActivity(shareIntent);
-
-                *//*Intent intent = new Intent(
-                        FluActivity.this,
-                        ShowWebChart.class);
-
-                   *//**//* intent.putExtra("NUM1", getNum(num1));
-                    intent.putExtra("NUM2", getNum(num2));
-                    intent.putExtra("NUM3", getNum(num3));
-                    intent.putExtra("NUM4", getNum(num4));
-                    intent.putExtra("NUM5", getNum(num5));
-*//**//*
-
-                intent.putExtra("NUM1", 40);
-                intent.putExtra("NUM2", 50);
-                intent.putExtra("NUM3", 70);
-                intent.putExtra("NUM4", 35);
-                intent.putExtra("NUM5", 50);
-
-                startActivity(intent);
-
-                finish();*//*
-
-                return true;
-            case R.id.action_sms:
-                String messageToSend = "EOI:"+ratingOfEOI;
-                String number = "9015157371";
-
-                SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null,null);
-                finish();
-                return true;
-            case R.id.action_history:
-
-                // Create a new intent to open the {@link Temperature History}
-                Intent temperatureHistoryIntent = new Intent(FluActivity.this, Temp_HistoryActivity.class);
-
-                // Start the new activity
-                startActivity(temperatureHistoryIntent);
-                finish();
-                return true;
-
-            case R.id.action_algorithm:
-                Intent algIntent = new Intent(FluActivity.this, FluAlgorithm.class);
-                startActivity(algIntent);
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+    // menu options
 
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
@@ -562,6 +442,7 @@ public class FluActivity extends AppCompatActivity {
                 Vdatetime.setText("");
                 Vprompt.setText("");
                 Veoi.setText("");
+                mDisplay.setVisibility(View.INVISIBLE);
                 return true;
 
             case R.id.action_save:
@@ -572,24 +453,29 @@ public class FluActivity extends AppCompatActivity {
                 return true;
             // Respond to a click on the "Share to SCC" menu option
             case R.id.action_share:
+
+                if(s.matches("")) {
+                    Toast.makeText(getApplicationContext(), "Create Profile First ", Toast.LENGTH_LONG).show();
+
+                }else{
                 // Go to cloud activity
+                    Intent shareIntent = new Intent(FluActivity.this, CloudActivity.class);
+                    //Bundle extras = new Bundle();
+                    shareIntent.putExtra("DT", "BT");
+                    shareIntent.putExtra("profile", s);
+                    shareIntent.putExtra("EOI", eoiValue);
+                    shareIntent.putExtra("Time", currentDateTime);
+                    shareIntent.putExtra("Algorithm", "1");
+                    startActivity(shareIntent);
+                    return true;
 
-                Intent shareIntent = new Intent(FluActivity.this, CloudActivity.class);
-                //Bundle extras = new Bundle();
-                shareIntent.putExtra("DT", "BT");
-                shareIntent.putExtra("profile", s);
-                shareIntent.putExtra("EOI",eoiValue );
-                shareIntent.putExtra("Time",currentDateTime );
-                shareIntent.putExtra("Algorithm", "1");
-                startActivity(shareIntent);
-
-                return true;
+                }
             case R.id.action_sms:
-                String messageToSend = "EOI:" +eoiValue;
+                String messageToSend = "EOI:" + eoiValue;
                 String number = "9015157371";
 
                 SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null, null);
-                finish();
+                //finish();
                 return true;
             case R.id.action_history:
 
@@ -598,7 +484,7 @@ public class FluActivity extends AppCompatActivity {
 
                 // Start the new activity
                 startActivity(temperatureHistoryIntent);
-                finish();
+                //finish();
                 return true;
 
             case R.id.action_algorithm:
@@ -608,6 +494,7 @@ public class FluActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void onStart() {
         super.onStart();
         if (!bt.isBluetoothEnabled()) {
@@ -648,6 +535,22 @@ public class FluActivity extends AppCompatActivity {
             public void onClick(View v) {
                 {
                     bt.send("BT", true);
+                    // progress indicator
+                    final ProgressDialog progressDialog = new ProgressDialog(FluActivity.this,
+                            R.style.AppTheme_Dark_Dialog);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setMessage("Collecting data...");
+                    progressDialog.show();
+                    //progressDialog dismiss
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    // On complete call either onLoginSuccess or onLoginFailed
+                                    //onLoginSuccess();
+                                    // onLoginFailed();
+                                    progressDialog.dismiss();
+                                }
+                            }, 3000);
 
 
                 }
@@ -663,117 +566,192 @@ public class FluActivity extends AppCompatActivity {
     }
 
 
-public void tempAlgorithm(String mealId)
+    public void tempAlgorithm(View v) {
 
-{
+        ArrayList<Short> arr_trans = new ArrayList<Short>();
+        ArrayList<Short> arr_processed1 = new ArrayList<Short>();
+        ArrayList<Short> arr_processed2 = new ArrayList<Short>();
+        float sum = 0.0f;
+        float sum1 = 0.0f;
+        float sum2 = 0.0f;
+        float avgValue = 0.0f;
+        float avgValue1 = 0.0f;
+        float avgValue2 = 0.0f;
+        float resultVoltage=0.0f;
+        float temperature=0.0f;
 
-    // initialize the screen
-    Vdatetime.setText("");
-    Textv.setText("");
-    Vprompt.setText("");
-    Veoi.setText("");
+        // make main display visible and hide arrows
+        mDisplay.setVisibility(View.VISIBLE);
+        arrow1.setVisibility(View.INVISIBLE);
+        arrow2.setVisibility(View.INVISIBLE);
+        arrow3.setVisibility(View.INVISIBLE);
+        arrow4.setVisibility(View.INVISIBLE);
+        arrow5.setVisibility(View.INVISIBLE);
+        arrow6.setVisibility(View.INVISIBLE);
+        arrow7.setVisibility(View.INVISIBLE);
+        arrow8.setVisibility(View.INVISIBLE);
+        arrow9.setVisibility(View.INVISIBLE);
+        arrow10.setVisibility(View.INVISIBLE);
+        arrow11.setVisibility(View.INVISIBLE);
 
-    // temperature processing begin
+        // display when there is no data
+        if (arr_received.size() == 0) {
+            mDisplay.setVisibility(View.VISIBLE);
+            Textv.setText("No Data");
+            Veoi.setText("No Data");
+        } else {
 
-    float f = 0;
-    try {
-        f = Float.valueOf(mealId);
-        ratingOfEOI=(f-97)/10;
-        eoiValue=new DecimalFormat("##.##").format(ratingOfEOI);
-        severityRating=100*((f-97)/10);
-        eoiRating = String.valueOf(new DecimalFormat("##.##").format(severityRating));
+            // get date and time
 
-        Log.i("severity", eoiRating);
+            currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
+            // initialize the screen
+            Vdatetime.setText("");
+            Textv.setText("");
+            Vprompt.setText("");
+            Veoi.setText("");
+
+            // temperature processing begin
+            for (int i = 0; i < arr_received.size(); i++) {
+                if ((arr_received.get(i)>1000)&&(arr_received.get(i)<9000)) {
+                    arr_trans.add(arr_received.get(i));
+
+                Log.i("transferrred", "" + arr_received.get(i));
+
+            }
+            }
+            Log.i("size_arr_r", "" + arr_received.size());
+            Log.i("size_arr_t", "" + arr_trans.size());
+            for (int j = 0; j < arr_trans.size(); j++) {
+                sum += arr_trans.get(j);
+            }
+            avgValue = sum / arr_trans.size();
+
+            Log.i("Avg", "" + avgValue);
+
+            for (int k = 0; k < arr_trans.size(); k++) {
+                if (arr_trans.get(k) >= avgValue) {
+                    arr_processed1.add(arr_trans.get(k));
+
+                } else {
+                    arr_processed2.add(arr_trans.get(k));
+                }
+            }
+
+            Log.i("size1", "" + arr_processed1.size());
+            Log.i("size2", "" + arr_processed2.size());
+            for (int j = 0; j < arr_processed1.size(); j++) {
+                sum1 += arr_processed1.get(j);
+            }
+            avgValue1 = sum1 / arr_processed1.size();
+
+            for (int j = 0; j < arr_processed2.size(); j++) {
+                sum2 += arr_processed2.get(j);
+            }
+            avgValue2 = sum2 / arr_processed2.size();
+
+            resultVoltage = avgValue1 - avgValue2;
+            Log.i("Result", "" + resultVoltage);
+
+            temperature=(resultVoltage/350)*75;
+
+            String sSeverity="";
 
 
-        //DecimalFormat df2 = new DecimalFormat("###.##");
-        //float eoi2decimal=Float.valueOf(df2.format(eoiRating));
+            try {
+                sTemperature=String.valueOf(new DecimalFormat("###.##").format(temperature));
+                ratingOfEOI = (temperature - 97) / 10;
+                sEOI = new DecimalFormat("##.##").format(ratingOfEOI);
+                sSeverity = new DecimalFormat("##.##").format(100 * ratingOfEOI);
+
+                if (temperature<= 97.5) {
+                    prompt = "Normal Temperature";
+                    arrow1.setVisibility(View.VISIBLE);
+                    sEOI="0.0";
+                    sSeverity="0.0";
+                } else if (temperature <= 98.5) {
+                    prompt = "Normal Temperature";
+                    arrow2.setVisibility(View.VISIBLE);
+                } else if (temperature <= 99.5) {
+                    prompt = "Normal Temperature";
+                    arrow3.setVisibility(View.VISIBLE);
+                } else if (temperature <= 100.5) {
+                    prompt = "Normal Temperature";
+                    arrow4.setVisibility(View.VISIBLE);
+                } else if (temperature <= 101.5) {
+                    prompt = "Low Fever,\nconsider consulting your doctor";
+                    arrow5.setVisibility(View.VISIBLE);
+                } else if (temperature <= 102.5) {
+                    prompt = "Medium Fever,\nConsult your doctor";
+                    arrow6.setVisibility(View.VISIBLE);
+                } else if (temperature <= 103.5) {
+                    prompt = "High Fever,\nConsult your doctor";
+                    arrow7.setVisibility(View.VISIBLE);
+                } else if (temperature <= 104.5) {
+                    prompt = "High Fever,\nConsult your doctor";
+                    arrow8.setVisibility(View.VISIBLE);
+                } else if (temperature <= 105.5) {
+                    prompt = "Very High Fever,\nConsult your doctor immediately";
+                    arrow9.setVisibility(View.VISIBLE);
+                } else if (temperature <= 106.5) {
+                    prompt = "Very High Fever,\nConsult your doctor immediately";
+                    arrow10.setVisibility(View.VISIBLE);
+                } else if (temperature >= 106.5) {
+                    prompt = "Extremely High Fever,\nConsult your doctor immediately";
+                    arrow11.setVisibility(View.VISIBLE);
+                }
+
+            } catch (NumberFormatException e) {
+
+                prompt = "Invalid Data";
+                gradient.setVisibility(View.INVISIBLE);
+            }
 
 
-        if (f <= 97.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 0;
-            //eoiRating = "0";
-            prompt = "Normal Temperature";
-            arrow1.setVisibility(View.VISIBLE);
-        } else if (f <= 98.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 0.1;
-            //eoiRating = "0.1";
-            prompt = "Normal Temperature";
-            arrow2.setVisibility(View.VISIBLE);
-        } else if (f <= 99.5) {
-            mealId += "°F\n";
-            //eoiRating = "0.2";
-            //ratingOfEOI = 0.2;
-            prompt = "Normal Temperature";
-            arrow3.setVisibility(View.VISIBLE);
-        } else if (f <= 100.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 0.3;
-            //eoiRating = "0.3";
-            prompt = "Normal Temperature";
-            arrow4.setVisibility(View.VISIBLE);
-        } else if (f <= 101.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 0.4;
-            //eoiRating = "0.4";
-            prompt = "Low Fever,\nconsider consulting your doctor";
-            arrow5.setVisibility(View.VISIBLE);
-        } else if (f <= 102.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 0.5;
-            //eoiRating = "0.5";
-            prompt = "Medium Fever,\nConsult your doctor";
-            arrow6.setVisibility(View.VISIBLE);
-        } else if (f <= 103.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 0.6;
-            //eoiRating = "0.6";
-            prompt = "High Fever,\nConsult your doctor";
-            arrow7.setVisibility(View.VISIBLE);
-        } else if (f <= 104.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 0.7;
-            //eoiRating = "0.7";
-            prompt = "High Fever,\nConsult your doctor";
-            arrow8.setVisibility(View.VISIBLE);
-        } else if (f <= 105.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 0.8;
-            //eoiRating = "0.8";
-            prompt = "Very High Fever,\nConsult your doctor immediately";
-            arrow9.setVisibility(View.VISIBLE);
-        } else if (f <= 106.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 0.9;
-            //eoiRating = "0.9";
-            prompt = "Very High Fever,\nConsult your doctor immediately";
-            arrow10.setVisibility(View.VISIBLE);
-        } else if (f >= 106.5) {
-            mealId += "°F\n";
-            //ratingOfEOI = 1;
-            //eoiRating = "1";
-            prompt = "Extremely High Fever,\nConsult your doctor immediately";
-            arrow11.setVisibility(View.VISIBLE);
+            // set the strings for main display
+
+            Vdatetime.setText(currentDateTime);
+            Textv.append(sTemperature+"°F");
+            Vprompt.append(prompt );
+            Veoi.append(sSeverity+"%");
+
+
         }
 
-    } catch (NumberFormatException e) {
-
-        prompt = "Invalid Data";
-        gradient.setVisibility(View.INVISIBLE);
+        // end temperature processing
+        arr_received.clear();
+        Log.i("sizearr_received", "" + arr_received.size());
+        arr_trans.clear();
+        arr_processed1.clear();
+        arr_processed2.clear();
+        fileSeq++;
+        timeKey = false;
+        diseaseKey = false;
+        sensorKey = false;
     }
 
 
-    // set the strings for main display
+    //write to csv file
+    public void writeToCsv(String x) throws IOException {
 
-    Vdatetime.setText(currentDateTime+"\n");
-    Textv.append(mealId);
-    Vprompt.append(prompt+"\n");
-    Veoi.append(eoiRating+"%\n");
-// end temperature processing
+        Calendar c = Calendar.getInstance();
+        File folder = new File(Environment.getExternalStorageDirectory() + "/project");
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdir();
+        }
+        if (success) {
+            // Do something on success
+            String fileName = "flu" + String.valueOf(fileSeq) + ".csv";
+            String csv = "/storage/emulated/0/project/"+fileName;
+            FileWriter file_writer = new FileWriter(csv, true);
+            String s = c.get(Calendar.YEAR) + "," + (c.get(Calendar.MONTH) + 1) + "," + c.get(Calendar.DATE) + "," + c.get(Calendar.HOUR) + "," + c.get(Calendar.MINUTE) + "," + c.get(Calendar.SECOND) + "," + c.get(Calendar.MILLISECOND) + "," + x + "\n";
 
-}
+            file_writer.append(s);
+            file_writer.close();
+
+
+        }
+    }
 
 
 }
