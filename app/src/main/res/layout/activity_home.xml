@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/espeech"
         style="@style/CategoryStyle"
-        android:layout_height="20dp"
+        android:layout_height="10dp"
         android:textAlignment="center"
         android:background="#FA8072"
         android:text="" />
@@ -24,7 +24,8 @@
         android:id="@+id/about"
         style="@style/CategoryStyle"
         android:layout_margin="20dp"
-        android:textSize="12dp"
+        android:layout_height="70dp"
+        android:textSize="10dp"
         android:textAlignment="center"
         android:background="@drawable/button"
         android:text=" " />
@@ -32,7 +33,8 @@
         android:id="@+id/setting"
         style="@style/CategoryStyle"
         android:layout_margin="20dp"
-        android:textSize="12dp"
+        android:layout_height="70dp"
+        android:textSize="10dp"
         android:background="@drawable/button"
         android:textAlignment="center"
         android:text=" " />
@@ -42,7 +44,18 @@
         android:id="@+id/lab"
         style="@style/CategoryStyle"
         android:layout_margin="20dp"
-        android:textSize="12dp"
+        android:layout_height="70dp"
+        android:textSize="10dp"
+        android:background="@drawable/button"
+        android:textAlignment="center"
+        android:text=" " />
+
+    <TextView
+        android:id="@+id/web"
+        style="@style/CategoryStyle"
+        android:layout_margin="20dp"
+        android:layout_height="70dp"
+        android:textSize="10dp"
         android:background="@drawable/button"
         android:textAlignment="center"
         android:text=" " />
@@ -50,25 +63,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="right">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
         <Switch
             android:id="@+id/mySwitch"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:background="@drawable/gradient"
-            android:checked="true"
             android:padding="10dp"
             android:text="Bluetooth"
             android:textSize="10sp"
             android:textColor="#000000" />
 
+
         <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:background="@drawable/gradient"
             android:onClick="logOut"
             android:shape="oval"

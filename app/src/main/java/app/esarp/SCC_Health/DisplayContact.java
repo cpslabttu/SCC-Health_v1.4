@@ -225,7 +225,7 @@ public class DisplayContact extends AppCompatActivity {
         // check information validity
         if((name.getText().toString().trim().length() == 0)||(phone.getText().toString().trim().length() == 0)||(street.getText().toString().trim().length() == 0))
         {
-            Toast.makeText(getApplicationContext(), "Field Can't be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "* Fields Can't be empty", Toast.LENGTH_SHORT).show();
         }
 
         else if(error){

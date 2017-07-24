@@ -2,6 +2,8 @@ package app.esarp.SCC_Health;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +20,8 @@ import static app.esarp.bluetooth.library.BluetoothState.REQUEST_ENABLE_BT;
 
 public class HomeActivity extends AppCompatActivity {
     final BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
-    private Switch mySwitch;
+    private Switch btSwitch;
+    private WifiManager wifiManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +33,17 @@ public class HomeActivity extends AppCompatActivity {
         ActionBar myActionBar = getSupportActionBar();
         myActionBar.show();
 
-
-        // Find the View that shows the  intro information
-        mySwitch = (Switch) findViewById(R.id.mySwitch);
         TextView intro = (TextView) findViewById(R.id.espeech);
         intro.setVisibility(View.INVISIBLE);
         Log.i("Home", "Called");
+
+        // Find the switch that turn on/off bluetooth
+        btSwitch = (Switch) findViewById(R.id.mySwitch);
+
+
+        // Find the switch that turn on/off wifi
+        //wifiSwitch = (Switch) findViewById(R.id.wifiSwitch);
+
 
         // Find the View that shows the  project information
         TextView about = (TextView) findViewById(R.id.about);
@@ -100,14 +108,35 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        // Find the View that shows the website category
+        TextView web = (TextView) findViewById(R.id.web);
+        String webString = "Website \n\t- Visit SCC Health Website";
+        SpannableString ss4 = new SpannableString(webString);
+        ss4.setSpan(new RelativeSizeSpan(2.0f), 0, 8, 0); // set size
+        web.setText(ss4);
+        // Set a click listener on that View
+        web.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the profile category is clicked on.
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("http://sscmemphis.com"); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
         // manage switch to turn bluetooth off
         if (bluetooth.isEnabled()){
-            mySwitch.setChecked(true);
+            btSwitch.setChecked(true);
         }else {
-            mySwitch.setChecked(false);
+            btSwitch.setChecked(false);
         }
+
+
+
+
         //attach a listener to check for changes in state
-        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        btSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
@@ -126,7 +155,37 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
+        // manage switch to turn wifi on/off
+
+       /* wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if(wifiManager.isWifiEnabled()){
+            wifiSwitch.setChecked(true);
+        }else{
+            wifiSwitch.setChecked(false);
+
+        }
+
+        //attach a listener to check for changes in wifi state
+        wifiSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+
+                if (isChecked) {
+                    wifiManager.setWifiEnabled(true);
+                } else {
+                    wifiManager.setWifiEnabled(false);
+                }
+
+            }
+        });*/
+
+
     }
+
+
 
     public void logOut(View v) {
         // close the app

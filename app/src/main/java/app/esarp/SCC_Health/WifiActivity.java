@@ -8,6 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,10 +31,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class WifiActivity extends Activity implements View.OnClickListener {
+public class WifiActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvIsConnected;
     EditText etName, etCountry, etdiseaseType, etTime, etEOI, etAlg;
@@ -75,7 +79,8 @@ public class WifiActivity extends Activity implements View.OnClickListener {
             jsonObject.put("DT", person.getDiseaseType());
             jsonObject.put("EOI",person.getEoi());
             jsonObject.put("TIME",person.getTime());
-            jsonObject.put("Alg",person.getAlgorithm());
+            jsonObject.put("ALG","BT1");
+            //jsonObject.put("ALG",person.getAlgorithm());
 
 
 
@@ -136,6 +141,10 @@ public class WifiActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi);
 
+        // show action bar
+        ActionBar myActionBar = getSupportActionBar();
+        myActionBar.show();
+
         // get reference to the views
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
         etName = (EditText) findViewById(R.id.etName);
@@ -146,7 +155,9 @@ public class WifiActivity extends Activity implements View.OnClickListener {
         etTime =(EditText) findViewById(R.id.etTime);
         etEOI = (EditText) findViewById(R.id.etEOI);
         etAlg = (EditText) findViewById(R.id.etAlg);
-
+        // set date time
+        String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
+        etTime.setText(currentDateTime);
 
         // check if you are connected or not
         if (isConnected()) {
@@ -196,6 +207,8 @@ public class WifiActivity extends Activity implements View.OnClickListener {
                 if (!validate())
                     Toast.makeText(getBaseContext(), "Enter some data!", Toast.LENGTH_LONG).show();
                 // call AsynTask to perform network operation on separate thread
+
+
                 person =new Person();
                 person.setPatientID(etName.getText().toString());
                 person.setGridCode(etCountry.getText().toString());
@@ -204,6 +217,8 @@ public class WifiActivity extends Activity implements View.OnClickListener {
                 person.setTime(etTime.getText().toString());
                 person.setAlgorithm(etAlg.getText().toString());
                 new HttpAsyncTask().execute(url);
+
+
                 break;
         }
 

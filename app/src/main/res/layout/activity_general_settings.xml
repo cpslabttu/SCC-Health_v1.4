@@ -14,9 +14,19 @@
     tools:context="app.esarp.SCC_Health.GeneralSettingsActivity">
 
     <TextView
+        android:id="@+id/permission"
+        style="@style/CategoryStyle"
+        android:layout_margin="16dp"
+        android:layout_height="70dp"
+        android:textAlignment="center"
+        android:background="@drawable/button"
+        android:text=" Setup Permissions" />
+
+    <TextView
         android:id="@+id/useraccount"
         style="@style/CategoryStyle"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
+        android:layout_height="70dp"
         android:textAlignment="center"
         android:background="@drawable/button"
         android:text=" Create User Account" />
@@ -24,7 +34,8 @@
     <TextView
         android:id="@+id/profile"
         style="@style/CategoryStyle"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
+        android:layout_height="70dp"
         android:textAlignment="center"
         android:background="@drawable/button"
         android:text="@string/category_profile" />
@@ -32,7 +43,8 @@
     <TextView
         android:id="@+id/bluetooth"
         style="@style/CategoryStyle"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
+        android:layout_height="70dp"
         android:background="@drawable/button"
         android:textAlignment="center"
         android:text="@string/category_bluetooth" />
@@ -40,7 +52,8 @@
     <TextView
         android:id="@+id/wifi"
         style="@style/CategoryStyle"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
+        android:layout_height="70dp"
         android:background="@drawable/button"
         android:textAlignment="center"
         android:text="@string/category_wifi" />

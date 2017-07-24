@@ -23,8 +23,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textColor="#000000"
-                android:text="Information:\n\nNormal body temperature varies by person, age, activity, and time of day. The average normal body temperature is generally accepted as 98.6°F. Some studies have shown that the normal body temperature can have a wide range, from 97°F to 99°F . A temperature over 100.4°F most often means you have a fever caused by an infection or illness.
-                \nRef: US National Library of Medicine" />
+                android:text="@string/info_flu" />
 
             <Button
                 android:id="@+id/dismiss"

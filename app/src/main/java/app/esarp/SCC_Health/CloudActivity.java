@@ -10,8 +10,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -61,16 +63,17 @@ public class CloudActivity extends Activity implements View.OnClickListener {
     // to get long lat
     private static Context context;
     double x, y, Latitude, Longitude;
-    Button addressButton;
+    //Button addressButton;
     TextView addressTV;
     TextView latLongTV;
+    private WifiManager wifiManager;
 
 
         //String url="http://10.100.94.221/nsf/adminlogin/insertjsondb.php";
 
         // String url="https://10.100.94.221.000webhostapp.com/insertjsondb.php";
 
-        String url="https://sharminafrozsheba.000webhostapp.com/insertjsondb.php";
+        String url="http://sscmemphis.com/insertjsondb.php";
 
 
     public static String POST(String url, Person person)
@@ -95,7 +98,7 @@ public class CloudActivity extends Activity implements View.OnClickListener {
             jsonObject.put("DT", person.getDiseaseType());
             jsonObject.put("EOI",person.getEoi());
             jsonObject.put("TIME",person.getTime());
-            jsonObject.put("Alg",person.getAlgorithm());
+            jsonObject.put("ALG",person.getAlgorithm());
 
 
 
@@ -154,7 +157,18 @@ public class CloudActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wifi);
+        setContentView(R.layout.activity_cloud);
+
+        // activate wifi
+
+        wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if(wifiManager.isWifiEnabled()){
+
+        }else{
+            wifiManager.setWifiEnabled(true);
+
+        }
+
 
         // get reference to the views
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
@@ -209,9 +223,29 @@ public class CloudActivity extends Activity implements View.OnClickListener {
         // check if you are connected or not
         if (isConnected()) {
             tvIsConnected.setBackgroundColor(0xFF00CC00);
-            tvIsConnected.setText("You are conncted");
+            tvIsConnected.setText("You are connected");
         } else {
-            tvIsConnected.setText("You are NOT conncted");
+            new CountDownTimer(5000, 1000) {
+                public void onFinish() {
+                    // When timer is finished
+                    // Execute your code here
+
+                    if (isConnected()){
+                        tvIsConnected.setBackgroundColor(0xFF00CC00);
+                        tvIsConnected.setText("You are connected");
+                    }
+
+                    else {
+                        tvIsConnected.setText("You are NOT connected");
+                    }
+                }
+
+                public void onTick(long millisUntilFinished) {
+                    // millisUntilFinished    The amount of time until finished.
+                }
+            }.start();
+
+
         }
 
         // add click listener to Button "POST"
@@ -222,12 +256,12 @@ public class CloudActivity extends Activity implements View.OnClickListener {
         addressTV = (TextView) findViewById(R.id.addressTV);
         latLongTV = (TextView) findViewById(R.id.latLongTV);
 
-        addressButton = (Button) findViewById(R.id.addressButton);
+        //addressButton = (Button) findViewById(addressButton);
 
         //String address2 = addressET.getText().toString();
 
 
-        addressButton.setOnClickListener(new View.OnClickListener() {
+        /*addressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
 
@@ -239,7 +273,7 @@ public class CloudActivity extends Activity implements View.OnClickListener {
                 getGridCode(address2);
 
             }
-        });
+        });*/
 
 
 
@@ -270,6 +304,7 @@ public class CloudActivity extends Activity implements View.OnClickListener {
                 person.setTime(etTime.getText().toString());
                 person.setAlgorithm(etAlg.getText().toString());
                 new HttpAsyncTask().execute(url);
+                finish();
                 break;
         }
 

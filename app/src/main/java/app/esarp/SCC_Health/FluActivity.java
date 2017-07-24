@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import java.util.Date;
 import app.esarp.bluetooth.library.BluetoothSPP;
 import app.esarp.bluetooth.library.BluetoothState;
 import app.esarp.bluetooth.library.DeviceList;
+import dalvik.system.DexClassLoader;
 
 import static app.esarp.SCC_Health.DisplayContact.READ_BLOCK_SIZE;
 
@@ -56,6 +58,7 @@ public class FluActivity extends AppCompatActivity {
     private TextView mTemperature;
     private TextView mEoi;
     private Button connectScanner, test, dispResult;
+    //private WifiManager wifiManager;
     private boolean diseaseKey = false;
     private boolean sensorKey = false;
     private boolean timeKey = false;
@@ -271,7 +274,7 @@ public class FluActivity extends AppCompatActivity {
                 String readAscii = new String(data);
                 Log.i("Str@activity", readAscii);
                 //textReceived.append(message + "\n");
-                if (timeKey == true) {
+                if (timeKey) {
                     //receive data
 
                     arr_hex.add(message);
@@ -313,6 +316,7 @@ public class FluActivity extends AppCompatActivity {
                             if (readAscii.equals("5") && diseaseKey && sensorKey) {
                                 bt.send("OK", true);
                                 timeKey = true;
+
                             } else {
                                 mDisplay.setVisibility(View.VISIBLE);
                                 arrow1.setVisibility(View.INVISIBLE);
@@ -326,7 +330,8 @@ public class FluActivity extends AppCompatActivity {
                                 arrow9.setVisibility(View.INVISIBLE);
                                 arrow10.setVisibility(View.INVISIBLE);
                                 arrow11.setVisibility(View.INVISIBLE);
-                                Textv.append("Failed Handshake");
+                                Textv.setText("Failed Handshake");
+
 
                             }
                         }
@@ -443,6 +448,9 @@ public class FluActivity extends AppCompatActivity {
                 Vprompt.setText("");
                 Veoi.setText("");
                 mDisplay.setVisibility(View.INVISIBLE);
+                diseaseKey = false;
+                sensorKey = false;
+                timeKey = false;
                 return true;
 
             case R.id.action_save:
@@ -454,10 +462,12 @@ public class FluActivity extends AppCompatActivity {
             // Respond to a click on the "Share to SCC" menu option
             case R.id.action_share:
 
+
                 if(s.matches("")) {
                     Toast.makeText(getApplicationContext(), "Create Profile First ", Toast.LENGTH_LONG).show();
 
                 }else{
+
                 // Go to cloud activity
                     Intent shareIntent = new Intent(FluActivity.this, CloudActivity.class);
                     //Bundle extras = new Bundle();
@@ -465,7 +475,7 @@ public class FluActivity extends AppCompatActivity {
                     shareIntent.putExtra("profile", s);
                     shareIntent.putExtra("EOI", eoiValue);
                     shareIntent.putExtra("Time", currentDateTime);
-                    shareIntent.putExtra("Algorithm", "1");
+                    shareIntent.putExtra("Algorithm", "BT1");
                     startActivity(shareIntent);
                     return true;
 
@@ -488,7 +498,7 @@ public class FluActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_algorithm:
-                Intent algIntent = new Intent(FluActivity.this, FluAlgorithm.class);
+                Intent algIntent = new Intent(FluActivity.this, FluMethods.class);
                 startActivity(algIntent);
                 return true;
         }
@@ -550,7 +560,7 @@ public class FluActivity extends AppCompatActivity {
                                     // onLoginFailed();
                                     progressDialog.dismiss();
                                 }
-                            }, 3000);
+                            }, 6000);
 
 
                 }
@@ -619,8 +629,8 @@ public class FluActivity extends AppCompatActivity {
 
             }
             }
-            Log.i("size_arr_r", "" + arr_received.size());
-            Log.i("size_arr_t", "" + arr_trans.size());
+            Log.i("sizer", "" + arr_received.size());
+            Log.i("sizet", "" + arr_trans.size());
             for (int j = 0; j < arr_trans.size(); j++) {
                 sum += arr_trans.get(j);
             }
@@ -655,6 +665,8 @@ public class FluActivity extends AppCompatActivity {
             temperature=(resultVoltage/350)*75;
 
             String sSeverity="";
+            //String result = dexcallFluSeverity(new Integer(100));
+            String result = dexcallFluSeverity(new Integer(Math.round(resultVoltage)));
 
 
             try {
@@ -707,14 +719,18 @@ public class FluActivity extends AppCompatActivity {
             }
 
 
-            // set the strings for main display
+
+//------ displaying result
 
             Vdatetime.setText(currentDateTime);
-            Textv.append(sTemperature+"°F");
+
+            //Textv.append(sTemperature+"°F");
+            Textv.append(resultVoltage+"°F");
+
             Vprompt.append(prompt );
-            Veoi.append(sSeverity+"%");
+            //Veoi.append("fluSeverity(100) = " + result);
 
-
+            Veoi.append( result);
         }
 
         // end temperature processing
@@ -753,7 +769,23 @@ public class FluActivity extends AppCompatActivity {
         }
     }
 
+    public String dexcallFluSeverity(Integer temp) {
+        try {
+            final String libPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS ) + "/fludex.dex";//path to DEX file to load
+            final File tmpDir = getDir("dex", 0);//temp directory optimized dex files should be written
+            final DexClassLoader classloader = new DexClassLoader(libPath, tmpDir.getAbsolutePath(), null, this.getClass().getClassLoader());//create DexClassLoader object
+            final Class<Object> classToLoad = (Class<Object>) classloader.loadClass("com.example.eoiValue");//load class with class name - eoiValue
+            final Object myInstance  = classToLoad.newInstance();//create a instance of the class loaded above
+            final Method doSomething = classToLoad.getMethod("fluSeverity", Integer.class);//get method of the class loaded above
 
+            String result  = (String) doSomething.invoke(myInstance, temp);//finally, invoke the method of the instance, while passing parameter value
+            return result;//return the method invocation result
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
 
 

@@ -38,7 +38,8 @@ public class About extends AppCompatActivity {
                 "PI: Dr. Bashir Morshed, Assistant Professor, Department of Electrical and Computer " +
                 "Engineering, The University of Memphis\n" +
                 "\n" +
-                "Co-PI: Dr. Brook Harmon, Assistant Professor, School of Public Health, The University of Memphis";
+                "Co-PI: Dr. Brook Harmon, Assistant Professor, School of Public Health, The University of Memphis"+"\n\n"
+                +"Consultant: Dr. M. Rahman,  Baptist Minor Medical Center, Memphis, TN";
         project.setText(projectdescription);
 
 

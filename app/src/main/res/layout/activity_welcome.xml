@@ -45,15 +45,27 @@
 
         <Button
             android:id="@+id/explore"
-            style="@style/CategoryStyle"
-            android:layout_width="320dp"
-            android:layout_marginLeft="4dp"
             android:layout_below="@+id/helathpic"
-            android:layout_centerVertical="true"
-            android:background="#01579B"
-            android:text="CONTINUE"
-            android:textAlignment="center"
-            android:textSize="30dp" />
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:background="@drawable/gradient"
+            android:onClick="logOut"
+            android:shape="oval"
+            android:text="Continue"
+            android:textColor="#000000"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="18dp"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="© Embedded Systems Advanced Research and Prototyping Lab\nThe University of Memphis "/>
 
     </LinearLayout>
 
