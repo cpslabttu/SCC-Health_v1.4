@@ -487,6 +487,8 @@ public class CloudActivity extends Activity implements View.OnClickListener {
             Cursor c = ourDatabase.query(CONTACTS_TABLE_NAME, columns,null , null, null, null, null);
             ptAddress = "";
             ptID="";
+
+            // patient id
             int iRow= c.getColumnIndex(CONTACTS_COLUMN_PHONE);
             //int iName= c.getColumnIndex(CONTACTS_COLUMN_NAME);
             int iAddress= c.getColumnIndex(CONTACTS_COLUMN_STREET);

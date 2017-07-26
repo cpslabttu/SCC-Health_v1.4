@@ -3,6 +3,7 @@ package app.esarp.SCC_Health;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
@@ -22,18 +23,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Calendar;
 
 import app.esarp.bluetooth.library.BluetoothSPP;
 import app.esarp.bluetooth.library.BluetoothSPP.BluetoothConnectionListener;
 import app.esarp.bluetooth.library.BluetoothState;
 import app.esarp.bluetooth.library.DeviceList;
-
-import static app.esarp.SCC_Health.DisplayContact.READ_BLOCK_SIZE;
 
 public class SleepApnea extends AppCompatActivity {
 
@@ -47,6 +44,7 @@ public class SleepApnea extends AppCompatActivity {
     private boolean tenReceived = false;
     private boolean btdata = true;
     Menu menu;
+    String s = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +57,22 @@ public class SleepApnea extends AppCompatActivity {
         myActionBar.show();
 
         // Set active profile
-        String s = "";
+
         TextView mNameText = (TextView) findViewById(R.id.display_name);
-        //reading profile from file
+
+        //Show active profile
+        SharedPreferences prefs = getSharedPreferences("logindetails",MODE_PRIVATE);
+        String Uname =  prefs.getString("loginname","Default");
+        mNameText.setText("\t\t"+Uname);
+
+        s = mNameText.getText().toString().trim();
+
+        /*//reading profile from file
         try {
             FileInputStream fileIn = openFileInput("mytextfile.txt");
             InputStreamReader InputRead = new InputStreamReader(fileIn);
             char[] inputBuffer = new char[READ_BLOCK_SIZE];
-            /*String s="";*/
+            *//*String s="";*//*
             int charRead;
 
             while ((charRead = InputRead.read(inputBuffer)) > 0) {
@@ -75,13 +81,13 @@ public class SleepApnea extends AppCompatActivity {
                 s += readstring;
             }
             InputRead.close();
-            /*mNameText.setText(s);*/
-            /*Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();*/
+            *//*mNameText.setText(s);*//*
+            *//*Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();*//*
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mNameText.setText(s);
+        mNameText.setText(s);*/
 
         // set views
 

@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -27,10 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -43,13 +45,11 @@ import app.esarp.bluetooth.library.BluetoothState;
 import app.esarp.bluetooth.library.DeviceList;
 import dalvik.system.DexClassLoader;
 
-import static app.esarp.SCC_Health.DisplayContact.READ_BLOCK_SIZE;
-
 public class FluActivity extends AppCompatActivity {
     BluetoothSPP bt;
     double ratingOfEOI = 0.0;
     Float severityRating;
-    String s;
+    String s="";
     Intent mIntent;
     private int fileSeq=1;
     private TextView connectionRead;
@@ -62,7 +62,7 @@ public class FluActivity extends AppCompatActivity {
     private boolean diseaseKey = false;
     private boolean sensorKey = false;
     private boolean timeKey = false;
-    private boolean poReceived = false;
+    private boolean connected=false;
     private int sensor = 1;
     private String tempReceived, eoiValue;
     private String currentDateTime = "";
@@ -98,6 +98,7 @@ public class FluActivity extends AppCompatActivity {
         ActionBar myActionBar = getSupportActionBar();
         myActionBar.show();
 
+
         /*startService(new Intent(this, BluetoothSPP.class));
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);*/
 
@@ -117,14 +118,21 @@ public class FluActivity extends AppCompatActivity {
         connectionRead = (TextView) findViewById(R.id.textStatus);
         mDisplay = (LinearLayout) findViewById(R.id.maindisplay);
         // Set active profile
-        s = "";
 
+        //Show active profile
+        SharedPreferences prefs = getSharedPreferences("logindetails",MODE_PRIVATE);
+        String Uname =  prefs.getString("loginname","Default");
+        mNameText.setText("\t\t"+Uname);
+
+        s = mNameText.getText().toString().trim();
+
+        /*
         //reading text from file
         try {
             FileInputStream fileIn = openFileInput("mytextfile.txt");
             InputStreamReader InputRead = new InputStreamReader(fileIn);
             char[] inputBuffer = new char[READ_BLOCK_SIZE];
-            /*String s="";*/
+            *//*String s="";*//*
             int charRead;
 
             while ((charRead = InputRead.read(inputBuffer)) > 0) {
@@ -133,13 +141,13 @@ public class FluActivity extends AppCompatActivity {
                 s += readstring;
             }
             InputRead.close();
-            /*mNameText.setText(s);*/
-            /*Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();*/
+            *//*mNameText.setText(s);*//*
+            *//*Toast.makeText(getBaseContext(), s,Toast.LENGTH_SHORT).show();*//*
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mNameText.setText(s);
+        mNameText.setText(s);*/
 
 
         // hide main display
@@ -344,6 +352,7 @@ public class FluActivity extends AppCompatActivity {
         bt.setBluetoothConnectionListener(new BluetoothSPP.BluetoothConnectionListener() {
             public void onDeviceDisconnected() {
                 connectionRead.setText("Status : Not connect");
+                connected=false;
                 menu.clear();
                 getMenuInflater().inflate(R.menu.menu_connection, menu);
             }
@@ -354,6 +363,7 @@ public class FluActivity extends AppCompatActivity {
 
             public void onDeviceConnected(String name, String address) {
                 connectionRead.setText("Status : Connected to " + name);
+                connected=true;
                 menu.clear();
                 getMenuInflater().inflate(R.menu.menu_disconnection, menu);
             }
@@ -544,25 +554,41 @@ public class FluActivity extends AppCompatActivity {
         test.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 {
-                    bt.send("BT", true);
-                    // progress indicator
-                    final ProgressDialog progressDialog = new ProgressDialog(FluActivity.this,
-                            R.style.AppTheme_Dark_Dialog);
-                    progressDialog.setIndeterminate(true);
-                    progressDialog.setMessage("Collecting data...");
-                    progressDialog.show();
-                    //progressDialog dismiss
-                    new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    // On complete call either onLoginSuccess or onLoginFailed
-                                    //onLoginSuccess();
-                                    // onLoginFailed();
-                                    progressDialog.dismiss();
-                                }
-                            }, 6000);
+                    if (connected) {
+                        bt.send("BT", true);
+                        // progress indicator
+                        final ProgressDialog progressDialog = new ProgressDialog(FluActivity.this,
+                                R.style.AppTheme_Dark_Dialog);
+                        progressDialog.setIndeterminate(true);
+                        progressDialog.setMessage("Collecting data...");
 
+                        new CountDownTimer(10000, 1000) {
 
+                            public void onTick(long millisecondsUntilDone) {
+
+                                progressDialog.show();
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                Log.i("Done", "Count Down Timer Finished");
+                                progressDialog.dismiss();
+                                AlertDialog alertDialog = new AlertDialog.Builder(FluActivity.this).create();
+                                alertDialog.setTitle("Instruction");
+                                alertDialog.setMessage("Click on COMPUTE to See Test Result");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
+                            }
+                        }.start();
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Get Connected First", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

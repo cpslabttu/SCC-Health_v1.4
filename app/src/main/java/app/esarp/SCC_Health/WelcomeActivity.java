@@ -1,5 +1,7 @@
 package app.esarp.SCC_Health;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 //git@gitlab.com:mjrahman/smartandconnected.git
 
@@ -29,10 +33,20 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
 
-        //Save the String value
+        //Get Login details
         SharedPreferences prefs = getSharedPreferences("logindetails",MODE_PRIVATE);
         String Uname =  prefs.getString("loginname","Default");
         displayUsername.setText("\t\t:) "+Uname);
+
+        // set notification
+        Calendar calender =Calendar.getInstance();
+        calender.set(Calendar.HOUR_OF_DAY,7);
+        calender.set(Calendar.MINUTE,59);
+        calender.set(Calendar.SECOND,1);
+        Intent intent=new Intent(getApplicationContext(), Notification_receiver.class);
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarmManager=(AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calender.getTimeInMillis(),1000*60*60*2,pendingIntent);
 
 
         // Find the View that shows the explorer
@@ -43,6 +57,7 @@ public class WelcomeActivity extends AppCompatActivity {
             // The code in this method will be executed when the numbers category is clicked on.
             @Override
             public void onClick(View view) {
+
                 // Create a new intent to open the {@link SleepApnea}
                 Intent homeIntent = new Intent(WelcomeActivity.this, HomeActivity.class);
 

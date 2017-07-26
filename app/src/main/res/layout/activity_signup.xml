@@ -22,7 +22,7 @@
 
         <!-- Name Label -->
 
-        <EditText android:id="@+id/input_name"
+        <EditText android:id="@+id/editTextUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -61,7 +61,7 @@
 
         <!-- Password Label -->
 
-        <EditText android:id="@+id/input_password"
+        <EditText android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -70,7 +70,7 @@
 
         <!-- Password Re-enter Label -->
 
-        <EditText android:id="@+id/input_reEnterPassword"
+        <EditText android:id="@+id/editTextConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -79,7 +79,7 @@
 
         <!-- Signup Button -->
         <Button
-            android:id="@+id/btn_signup"
+            android:id="@+id/buttonCreateAccount"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
