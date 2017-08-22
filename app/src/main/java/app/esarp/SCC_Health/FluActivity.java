@@ -77,7 +77,8 @@ public class FluActivity extends AppCompatActivity {
     private LinearLayout mDisplay;
     private ArrayList<String> arr_hex = new ArrayList<String>();
     private ArrayList<Short> arr_received = new ArrayList<Short>();
-
+    private ProgressDialog progressDialog;
+    private CountDownTimer Count;
     //temp db finish
 
     @Override
@@ -318,10 +319,10 @@ public class FluActivity extends AppCompatActivity {
 
                     } else {
                         if (readAscii.equals("TP") && diseaseKey) {
-                            bt.send("5", true);
+                            bt.send("05", true);
                             sensorKey = true;
                         } else {
-                            if (readAscii.equals("5") && diseaseKey && sensorKey) {
+                            if (readAscii.equals("05") && diseaseKey && sensorKey) {
                                 bt.send("OK", true);
                                 timeKey = true;
 
@@ -339,7 +340,8 @@ public class FluActivity extends AppCompatActivity {
                                 arrow10.setVisibility(View.INVISIBLE);
                                 arrow11.setVisibility(View.INVISIBLE);
                                 Textv.setText("Failed Handshake");
-
+                                Count.cancel();
+                                progressDialog.dismiss();
 
                             }
                         }
@@ -557,12 +559,12 @@ public class FluActivity extends AppCompatActivity {
                     if (connected) {
                         bt.send("BT", true);
                         // progress indicator
-                        final ProgressDialog progressDialog = new ProgressDialog(FluActivity.this,
+                         progressDialog = new ProgressDialog(FluActivity.this,
                                 R.style.AppTheme_Dark_Dialog);
                         progressDialog.setIndeterminate(true);
                         progressDialog.setMessage("Collecting data...");
 
-                        new CountDownTimer(10000, 1000) {
+                        Count=new CountDownTimer(10000, 1000) {
 
                             public void onTick(long millisecondsUntilDone) {
 

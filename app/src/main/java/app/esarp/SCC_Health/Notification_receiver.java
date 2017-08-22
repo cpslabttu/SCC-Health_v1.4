@@ -23,7 +23,7 @@ public class Notification_receiver extends BroadcastReceiver {
 
         NotificationCompat.Builder builder=(android.support.v7.app.NotificationCompat.Builder) new NotificationCompat.Builder(context)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.logo6)
+                .setSmallIcon(R.drawable.notifierb)
                 .setContentTitle("Health Checkup Reminder")
                 .setContentText("Hey! It's time to do the test")
                 .setAutoCancel(true);
