@@ -88,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-// Find the View that shows the setting category
+            // Find the View that shows the setting category
         TextView setting = (TextView) findViewById(R.id.setting);
         String settingString = "Settings \n\t- Create user, manage profiles & setup network";
         SpannableString ss2 = new SpannableString(settingString);
@@ -125,7 +125,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // manage switch to turn bluetooth off
+        // manage switch position based on connection status
         if (bluetooth.isEnabled()){
             btSwitch.setChecked(true);
         }else {

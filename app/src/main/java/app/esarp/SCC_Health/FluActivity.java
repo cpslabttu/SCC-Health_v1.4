@@ -451,6 +451,8 @@ public class FluActivity extends AppCompatActivity {
             case R.id.menu_disconnect:
                 if (bt.getServiceState() == BluetoothState.STATE_CONNECTED)
                     bt.disconnect();
+
+
                 return true;
 
 
@@ -600,6 +602,7 @@ public class FluActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+
 
     }
 

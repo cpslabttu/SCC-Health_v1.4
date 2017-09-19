@@ -6,18 +6,18 @@
     <item
         android:id="@+id/menu_reinitialize"
         android:background="#FFFF00"
-        android:title="Clear"
-        app:showAsAction="ifRoom"/>
+        android:title="Refresh"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/menu_android_connect"
         android:orderInCategory="100"
-        android:visible="false"
         android:title="Connect with android device"  />
 
     <item
         android:id="@+id/menu_device_connect"
         android:orderInCategory="100"
+        android:visible="false"
         android:title="Connect with Scanner" />
     <item
         android:id="@+id/action_save"

@@ -39,7 +39,8 @@ public class About extends AppCompatActivity {
                 "Engineering, The University of Memphis\n" +
                 "\n" +
                 "Co-PI: Dr. Brook Harmon, Assistant Professor, School of Public Health, The University of Memphis"+"\n\n"
-                +"Consultant: Dr. M. Rahman,  Baptist Minor Medical Center, Memphis, TN";
+                +"Consultant: Dr. M. Rahman,  Baptist Minor Medical Center, Memphis, TN"+"\n\n"
+                +"Collaborator: Memphis District of The United Methodist Church (UMC)";
         project.setText(projectdescription);
 
 

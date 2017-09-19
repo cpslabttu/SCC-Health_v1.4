@@ -173,10 +173,17 @@
 
     <string name="hello_world">Hello world!</string>
 
+    <string name="oneStop">One Stop Service</string>
+    <string name="intro">This is a One Stop Service to diagnose Flu, Sleep Apnea, Asthma and Arrhythmia. Click on a disease to know about it.</string>
+    <string name="procedure">The process involves three steps:</string>
     <string name="title_activity_listener">ListenerActivity</string>
     <string name="title_activity_auto_connect">AutoConnectActivity</string>
     <string name="title_activity_device_list">Bluetooth Devices</string>
     <string name="title_activity_terminal">TerminalActivity</string>
+    <string name="info_sleepapnea"><b>Sleep Apnea</b>\n\nA sleep disorder that is marked by pauses in breathing of 10 seconds or more during sleep, and causes unrestful sleep. Symptoms include loud or abnormal snoring, daytime sleepiness, irritability, and depression.\n\nRef: US National Library of Medicine"</string>
+    <string name="info_arrhythmia"><b>Arrhythmia</b>\n\nAn arrhythmia is a disorder of the heart rate (pulse) or heart rhythm. The heart can beat too fast (tachycardia), too slow (bradycardia), or irregularly.An arrhythmia can be harmless, a sign of other heart problems, or an immediate danger to your health.\n\nRef: US National Library of Medicine" </string>
+    <string name="info_copd"><b>COPD</b>\n\nCOPD, or chronic obstructive pulmonary disease, is a progressive disease that makes it hard to breathe. Progressive means the disease gets worse over time.
+\nCOPD can cause coughing that produces large amounts of mucus (a slimy substance), wheezing, shortness of breath, chest tightness, and other symptoms.\n\nRef: US National Institutes of Health"</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -184,6 +191,8 @@
     <string name="inst_flu"><b>Instructions:</b>\n\n1. Put on the wearable Temperature Sensor.\n2. Power On the Scanner.\n3. Click on <b>Connect Scanner</b> button.\n4. Click on <b>Start Test</b> after getting connected. \n5. Click on <b>Result</b> after data collection.\n\n</string>
 
     <string name="share_with_scc">Sharing helps you to keep track of your disease chronologically and also it helps to see the spatial ditribution of the disease within the city. \n\nBy clicking on SHARE, you accept to share anonymous severity data with the Smart and Connected Community.</string>
-    <string name="info_flu"><b>Information:</b>\n\n<b>Influenza</b> commonly known as "the flu", is an infectious disease caused by an influenza virus. Symptoms can be mild to severe. The most common symptoms include: a high fever, runny nose, sore throat, muscle pains, headache, coughing, and feeling tired.\n\nNormal body temperature varies by person, age, activity, and time of day. The average normal body temperature is generally accepted as 98.6°F. Some studies have shown that the normal body temperature can have a wide range, from 97°F to 99°F . A temperature over 100.4°F most often means you have a fever caused by an infection or illness.
+    <string name="info_flu"><b>Flu:</b>\n\nInfluenza commonly known as "the flu", is an infectious disease caused by an influenza virus. Symptoms can be mild to severe. The most common symptoms include: a high fever, runny nose, sore throat, muscle pains, headache, coughing, and feeling tired.\n\nNormal body temperature varies by person, age, activity, and time of day. The average normal body temperature is generally accepted as 98.6°F. Some studies have shown that the normal body temperature can have a wide range, from 97°F to 99°F . A temperature over 100.4°F most often means you have a fever caused by an infection or illness.
                 \nRef: US National Library of Medicine</string>
+    <string name="info_oss"><b>Information:</b>\n\n<b>One Stop Service</b> You can test four diseases viz. Flu, Sleep Apnea, Arrythmia, and Asthma at a time. You have to collect data using the four sensors viz. Temperature, Pulse Oximetry, Heart Rate, and Respiration sensor. Please read the istruction section for detailed procedure.    </string>
+    <string name="inst_oss"><b>Instruction:</b>\n\n1. Select Temperature Sensor.\n2. Connect to Scanner.\n3. Click on Start test and collect data.\n4. Do the same for SpO2, Heart rate and respiration sensor.\n5. Click on Compute to see the result.  </string>
 </resources>

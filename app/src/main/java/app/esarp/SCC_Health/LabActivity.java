@@ -87,5 +87,21 @@ public class LabActivity extends AppCompatActivity {
                 startActivity(arrhythmiaIntent);
             }
         });
+
+        // Find the View that shows the arrhythmia category
+        TextView oneStop = (TextView) findViewById(R.id.oneStop);
+
+        // Set a click listener on that View
+        oneStop.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the arrhythmia category is clicked on.
+            @Override
+            public void onClick(View view) {
+                // Create a new intent to open the {@link ArrhythmiaActivity}
+                Intent oneStopIntent = new Intent(LabActivity.this, oneStopService.class);
+
+                // Start the new activity
+                startActivity(oneStopIntent);
+            }
+        });
     }
 }

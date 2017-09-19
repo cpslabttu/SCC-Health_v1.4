@@ -46,7 +46,7 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent=new Intent(getApplicationContext(), Notification_receiver.class);
         PendingIntent pendingIntent=PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager=(AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calender.getTimeInMillis(),1000*60*60*2,pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calender.getTimeInMillis(),1000*60*60*12,pendingIntent);
 
 
         // Find the View that shows the explorer

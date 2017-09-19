@@ -22,12 +22,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <application
         android:name=".cBaseApplication"
         android:allowBackup="true"
-        android:icon="@drawable/logob"
+        android:icon="@drawable/flogo"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat">
         <activity
@@ -136,6 +136,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.esarp.SCC_Health.LabActivity" />
         </activity>
+
+        <activity android:name=".oneStopService"
+            android:label="Diagnostic"
+            android:parentActivityName=".LabActivity"/>
+
+
         <activity
             android:name=".ProfileActivity"
             android:label="User Profiles"
@@ -187,9 +193,10 @@
             android:name=".GeneralSettingsActivity"
             android:label="Settings"
             android:parentActivityName=".HomeActivity" />
-        <activity android:name=".WifiActivity"
+        <activity
+            android:name=".WifiActivity"
             android:label="Manual Sharing"
-            android:parentActivityName=".GeneralSettingsActivity"/>
+            android:parentActivityName=".GeneralSettingsActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".CloudActivity" />
         <activity
@@ -207,11 +214,14 @@
             android:name=".BluetoothPair"
             android:label="Bluetooth"
             android:parentActivityName=".BluetoothActivity" />
-        <activity android:name=".FluMethods"
+        <activity
+            android:name=".FluMethods"
             android:label="Ranking Methods"
-            android:parentActivityName=".FluActivity"/>
+            android:parentActivityName=".FluActivity" />
 
-        <receiver android:name=".Notification_receiver"/>
+        <receiver android:name=".Notification_receiver" />
+
+
     </application>
 
 </manifest>

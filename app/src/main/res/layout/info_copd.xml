@@ -23,8 +23,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textColor="#000000"
-                android:text="Information:\n\nCOPD, or chronic obstructive pulmonary disease, is a progressive disease that makes it hard to breathe. Progressive means the disease gets worse over time.
-\nCOPD can cause coughing that produces large amounts of mucus (a slimy substance), wheezing, shortness of breath, chest tightness, and other symptoms.\n\nRef: US National Institutes of Health" />
+                android:text="@string/info_copd" />
 
             <Button
                 android:id="@+id/dismiss"

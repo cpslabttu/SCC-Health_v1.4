@@ -7,7 +7,7 @@
     <item
         android:id="@+id/menu_reinitialize"
         android:background="#FFFF00"
-        android:title="Clear"
+        android:title="Refresh"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_disconnect"
