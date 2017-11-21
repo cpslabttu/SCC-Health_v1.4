@@ -1,7 +1,9 @@
 package app.esarp.SCC_Health;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -80,6 +82,24 @@ public class GeneralSettingsActivity extends AppCompatActivity {
 
                 // Start the new activity
                 startActivity(newuserIntent);
+
+            }
+        });
+
+        // Find the View that shows the permission category
+        TextView permission = (TextView) findViewById(R.id.permission);
+
+        // Set a click listener on that View
+        permission.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the setup permissions view is clicked on.
+            @Override
+            public void onClick(View view) {
+                // open App settings
+                Intent permissionIntent = new Intent();
+                permissionIntent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                permissionIntent.setData(uri);
+                startActivity(permissionIntent);
 
             }
         });

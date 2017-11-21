@@ -281,7 +281,7 @@ public class FluActivity extends AppCompatActivity {
             public void onDataReceived(byte[] data, String message) {
                 short val = 0;
                 String readAscii = new String(data);
-                Log.i("Str@activity", readAscii);
+                //Log.i("Str@activity", readAscii);
                 //textReceived.append(message + "\n");
                 if (timeKey) {
                     //receive data

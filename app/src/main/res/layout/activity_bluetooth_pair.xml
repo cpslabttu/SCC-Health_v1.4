@@ -27,11 +27,13 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="Paired Devices"/>
 
     <ListView
         android:id="@+id/listViewPaired"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="120dp">
 
     </ListView>

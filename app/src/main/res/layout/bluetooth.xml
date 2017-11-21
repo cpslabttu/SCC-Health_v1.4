@@ -41,17 +41,19 @@
             android:gravity="center_vertical|left" />
 -->
 
-        <Button
-            android:id="@+id/btnDeviceList"
-            android:text="Paired Device List"
-            style="@style/CategoryStyle"
-            android:layout_margin="20dp"
-            android:textAlignment="center"
-            android:background="@drawable/button"/>
+
 
         <Button
             android:id="@+id/btnPair"
             android:text="Discover New and Pair"
+            style="@style/CategoryStyle"
+            android:layout_margin="20dp"
+            android:textAlignment="center"
+            android:background="@drawable/button"/>
+        
+        <Button
+            android:id="@+id/btnDeviceList"
+            android:text="Paired Device List"
             style="@style/CategoryStyle"
             android:layout_margin="20dp"
             android:textAlignment="center"

@@ -342,6 +342,7 @@ public class BluetoothService   {
 
         public void run() {
             byte[] buffer;
+            StringBuilder sb=new StringBuilder();
             ArrayList<Integer> arr_byte = new ArrayList<Integer>();
             ArrayList<Integer> arr_termination = new ArrayList<Integer>(Collections.nCopies(2, 255));
             ArrayList<Integer> arr_transfer = new ArrayList<Integer>();
@@ -351,7 +352,8 @@ public class BluetoothService   {
                 try {
 
                     int data = mmInStream.read();
-                    Log.i("data", String.valueOf(data));
+                    //Log.i("data", String.valueOf(data));
+                    sb.append(Integer.toHexString(data));
                     /* arr_transfer.add(data);
                     if (arr_transfer.size() == 2) {
                         if (arr_transfer.equals(arr_termination)) {
@@ -365,21 +367,23 @@ public class BluetoothService   {
                         //arr_transfer.add(data);
                     }*/
                     //if(data == 0x0A) {} else
-                    if (data==0xff) {
+                    if ((sb.length() == 4)&&(sb.toString().equals("ffff"))) {
                         // save incoming values in a buffer
-                        buffer = new byte[arr_byte.size()];
-                        for (int i = 0; i < arr_byte.size(); i++) {
+                        buffer = new byte[arr_byte.size()-1];
+                        for (int i = 0; i < arr_byte.size()-1; i++) {
                             buffer[i] = arr_byte.get(i).byteValue();
                         }
                         // Send the obtained bytes to the UI Activity
                         mHandler.obtainMessage(BluetoothState.MESSAGE_READ
                                 , buffer.length, -1, buffer).sendToTarget();
                         arr_byte = new ArrayList<Integer>();
+                        sb.setLength(0);
+                    } else {
+                        arr_byte.add(data);
+                        sb.setLength(0);
+                        sb.append(Integer.toHexString(data));
                     }
 
-                    else {
-                        arr_byte.add(data);
-                    }
                 } catch (IOException e) {
                     connectionLost();
                     // Start the service over to restart listening mode

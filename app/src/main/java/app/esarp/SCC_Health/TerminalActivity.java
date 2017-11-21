@@ -95,10 +95,11 @@ public class TerminalActivity extends AppCompatActivity {
 
         bt.setOnDataReceivedListener(new OnDataReceivedListener() {
             public void onDataReceived(byte[] data, String message) {
-                short val = 0;
+                int val = 0;
                 String readAscii = new String(data);
                 //textRead.append(readAscii);
-                Log.i("Str@activity", readAscii);
+                Log.i("Str@activity", String.valueOf(readAscii));
+
                 arr_hex.add(message);
                 if (arr_hex.size() == 2) {
                     String catHex = arr_hex.get(0) + arr_hex.get(1);
@@ -106,7 +107,8 @@ public class TerminalActivity extends AppCompatActivity {
                         int b1 = (arr_hex.get(1) & 255); // converts to unsigned
                         int val = b0 << 8 | b1;*/
                     Log.i("val1@final", catHex);
-                    val = (short) (Integer.parseInt(catHex, 16));
+                    val= (int) Long.parseLong(catHex, 16);
+                    //val = (short) (Integer.parseInt(catHex, 16));
                     Log.i("val2@final", String.valueOf(val));
                     textRead.append(Integer.toString(val) + "\n");
                     try {

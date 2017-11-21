@@ -179,7 +179,9 @@ public class BluetoothSPP extends Service {
             case BluetoothState.MESSAGE_READ:
                 byte[] readBuf = (byte[]) msg.obj;
                 String readAscii = new String(readBuf);
-                Log.i("received@posthandler", readAscii);
+                //Log.i("received@posthandler", readAscii);
+
+                // Byte to Hex conversion
                 //char[] hexChars = new char[readBuf.length * 2];
                 char[] hexChars = new char[2];
                 for ( int j = 0; j < readBuf.length; j++ ) {
@@ -189,9 +191,15 @@ public class BluetoothSPP extends Service {
                        /* hexChars[j * 2] = hexArray[v >>> 4];
                         hexChars[j * 2 + 1] = hexArray[v & 0x0F];*/
                     String readMessage= new String(hexChars);
-                    Log.i("Str1@posthandler", readMessage);
 
-                    if (readBuf != null && readBuf.length > 0) {
+                    //Log.i("Str1@posthandler", readMessage);
+                    Log.i("loop", ""+j);
+                    if (readBuf != null && readBuf.length > 0 && ((readBuf.length==2 )||(readBuf.length==5 ))) {
+                        if (mDataReceivedListener != null)
+                            mDataReceivedListener.onDataReceived(readBuf, readMessage);
+                        break;
+                    }
+                    else if (readBuf != null && readBuf.length > 0) {
                         if (mDataReceivedListener != null)
                             mDataReceivedListener.onDataReceived(readBuf, readMessage);
                     }

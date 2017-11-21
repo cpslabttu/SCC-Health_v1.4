@@ -75,7 +75,7 @@ public class LoginActivity extends FragmentActivity {
 
                 // check if the Stored password matches with  Password entered by user
 
-        if ((userName.equals("a") && password.equals("a"))||(password.equals(storedPassword))) {
+        if ((userName.equals("admin") && password.equals("hce"))||(password.equals(storedPassword))) {
 
             // pass login details to shared preferences
             SharedPreferences prefs = getSharedPreferences("logindetails",MODE_PRIVATE);

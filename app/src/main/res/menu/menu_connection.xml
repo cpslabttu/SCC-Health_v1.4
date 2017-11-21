@@ -17,7 +17,7 @@
     <item
         android:id="@+id/menu_device_connect"
         android:orderInCategory="100"
-        android:visible="false"
+        android:visible="true"
         android:title="Connect with Scanner" />
     <item
         android:id="@+id/action_save"
@@ -40,6 +40,6 @@
     <item
         android:id="@+id/action_history"
         android:title="History"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
 </menu>

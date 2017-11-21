@@ -39,8 +39,8 @@ public class DB_login extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ed1.getText().toString().equals("a") &&
-                        ed2.getText().toString().equals("a")) {
+                if(ed1.getText().toString().equals("admin") &&
+                        ed2.getText().toString().equals("hce")) {
 
                     Intent NewActivityIntent = new Intent(DB_login.this, GeneralSettingsActivity.class);
 
