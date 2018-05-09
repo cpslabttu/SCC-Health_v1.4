@@ -35,7 +35,7 @@ public class About extends AppCompatActivity {
                 " in interdisciplinary research activities on emerging technologies, and is expected to" +
                 " impact public and private sector efforts to improve healthcare.\n" +
                 "\n" +
-                "PI: Dr. Bashir Morshed, Assistant Professor, Department of Electrical and Computer " +
+                "PI: Dr. Bashir Morshed, Associate Professor, Department of Electrical and Computer " +
                 "Engineering, The University of Memphis\n" +
                 "\n" +
                 "Co-PI: Dr. Brook Harmon, Assistant Professor, School of Public Health, The University of Memphis"+"\n\n"
