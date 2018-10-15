@@ -5,3 +5,10 @@ a custom smartphone app to monitor their health status and to elect to share the
                 population health status, reduce the need for frequent hospital visits, and help identify potential individual and community actions to achieve improvement in health
         status. The project also involves the training of undergraduate and graduate students in interdisciplinary research activities on emerging technologies, and is expected to public and private sector efforts to improve healthcare.
         : Dr. Bashir Morshed, Assistant Professor, Department of Electrical and Computer Engineering, The University of Memphis Co-PI: Dr. Brook Harmon, Assistant Professor, School of Public Health, The University of Memphis;
+        
+        
+If using this project files, please cite:
+
+M. J. Rahman and B. I. Morshed, "Improving Accuracy of Inkjet Printed Core Body WRAP Temperature Sensor Using Random Forest Regression Implemented with an Android App", Special session: Wearable, Implants, and Body-Area Networks (BK), National Radio Science Meeting, Boulder, CO, Jan. 9-12, 2019.
+
+B. I. Morshed, B. Harmon, M. S. Zaman, M. J. Rahman, S. Afroz, and M. Rahman, "Inkjet Printed Fully-passive Body-worn Wireless Sensors for Smart and Connected Community (SCC)", J. Low Power Electron. Appl., vol. 7, no. 4, article 26, pp. 1-21, Nov. 2017.
