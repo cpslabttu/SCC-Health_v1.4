@@ -1,14 +1,14 @@
 # SCC Health App
 ## Features
-o Pair bluetooth device with the app
-o Collect data from paired bluetooth device/ sensor
-o Save data in a sqlite database
-o Share data with a server using WiFi
-o create profiles
-o Sign in and Sign up screens
-o Use of Fragmant
-o Multiple activity
-o Menu etc.
+o Pair bluetooth device with the app<br/>
+o Collect data from paired bluetooth device/ sensor<br/>
+o Save data in a sqlite database<br/>
+o Share data with a server using WiFi<br/>
+o create profiles<br/>
+o Sign in and Sign up screens<br/>
+o Use of Fragmant<br/>
+o Multiple activity<br/>
+o Menu etc.<br/>
 ## Project Synopsis
 Patients with chronic illness require frequent and avoidable hospital visits. This project aims to develop a new class of battery-less, low-cost, disposable,  electronic patch sensors to monitor a variety of physiological signals and " +
 a custom smartphone app to monitor their health status and to elect to share their" events-of-interest with their community towards a smart and connected (S&CC). This will empower users, permit the community stakeholders to assess population health status, reduce the need for frequent hospital visits, and help identify potential individual and community actions to achieve improvement in health status. The project also involves the training of undergraduate and graduate students in interdisciplinary research activities on emerging technologies, and is expected to public and private sector efforts to improve healthcare.
